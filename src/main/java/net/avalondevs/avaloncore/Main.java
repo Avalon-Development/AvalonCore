@@ -32,8 +32,6 @@ public final class Main extends JavaPlugin {
         if (SQL.isConnected()) {
             data.createTable();
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
-            getCommand("tags").setExecutor(new TagsCommand());
-
         }
     }
 

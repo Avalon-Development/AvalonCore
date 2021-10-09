@@ -24,7 +24,7 @@ public class SQLGetter {
         }
     }
 
-    public void createTag(String name, String prefix) {
+    public static void createTag(String name, String prefix) {
         PreparedStatement ps;
         try {
             ps = SQL.getConnection().prepareStatement("INSERT INTO tags (NAME,PREFIX)");
