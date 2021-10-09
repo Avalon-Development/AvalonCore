@@ -17,7 +17,7 @@ public class SQLGetter {
     public void createTable() {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS tags (NAME VARCHAR(100),PREFIX VARCHAR(100)");
+            ps = SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS tags (INT ID NOT NULL AUTO_INCREMENT,NAME VARCHAR(100),PREFIX VARCHAR(100), PRIMARY KEY(ID)");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,5 +34,18 @@ public class SQLGetter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void listTags() {
+        PreparedStatement ps;
+        try {
+            ps = SQL.getConnection().prepareStatement("SELECT * FROM tags");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteTag() {
+
     }
 }

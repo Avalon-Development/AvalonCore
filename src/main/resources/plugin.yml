@@ -6,3 +6,5 @@ authors: [ AvalonDevs ]
 
 commands:
   tags:
+  vanish:
+    aliases: ["v"]

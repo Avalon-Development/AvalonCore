@@ -1,8 +1,10 @@
 package net.avalondevs.avaloncore;
 
-import net.avalondevs.avaloncore.Listeners.GuiListeners;
+import net.avalondevs.avaloncore.Commands.Staff.VanishCommand;
+import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import net.avalondevs.avaloncore.MySQL.MySQL;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
+import net.avalondevs.avaloncore.MySQL.StaffSQL;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 public final class Main extends JavaPlugin {
     public static MySQL SQL;
     public static SQLGetter data;
+    public static StaffSQL staffSQL;
 
 
     @Override
@@ -20,7 +23,7 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
 
         // Init MySQL Database
-        this.SQL = new MySQL();
+        SQL = new MySQL();
         data = new SQLGetter(this);
 
         try {
@@ -31,12 +34,20 @@ public final class Main extends JavaPlugin {
 
         if (SQL.isConnected()) {
             data.createTable();
+            staffSQL.createTable();
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
+            loadCommands();
         }
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+
+    void loadCommands() {
+        new TagsCommand();
+        new VanishCommand();
     }
 }
