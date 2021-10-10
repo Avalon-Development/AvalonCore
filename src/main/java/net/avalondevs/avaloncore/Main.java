@@ -4,6 +4,8 @@ import net.avalondevs.avaloncore.Commands.Staff.FreezeeCommand;
 import net.avalondevs.avaloncore.Commands.Staff.GamemodeCommand;
 import net.avalondevs.avaloncore.Commands.Staff.VanishCommand;
 import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
+import lombok.Getter;
+import lombok.Setter;
 import net.avalondevs.avaloncore.MySQL.MySQL;
 import net.avalondevs.avaloncore.MySQL.PlayerData;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
@@ -22,8 +24,14 @@ public final class Main extends JavaPlugin {
     public static PlayerData playerData;
 
 
+    @Getter
+    @Setter
+    public static Main instance;
+
     @Override
     public void onEnable() {
+
+        instance = this;
 
         saveDefaultConfig();
 
