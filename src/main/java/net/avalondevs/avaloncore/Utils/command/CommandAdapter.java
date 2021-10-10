@@ -3,6 +3,7 @@ package net.avalondevs.avaloncore.Utils.command;
 import lombok.Getter;
 import lombok.Setter;
 import net.avalondevs.avaloncore.Utils.Color;
+import net.avalondevs.avaloncore.Utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -116,6 +117,12 @@ public class CommandAdapter {
 
     public void sendUsage() {
         getSender().sendMessage(Color.fmt("&cUsage: " + annotation.usage()));
+    }
+
+    public void sendNoPermission() {
+
+        sendMessage(Utils.PREFIX + " You don't have permission to execute this command");
+
     }
 
     public void sendMessage(String message) {

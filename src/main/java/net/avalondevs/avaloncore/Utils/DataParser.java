@@ -1,8 +1,12 @@
 package net.avalondevs.avaloncore.Utils;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DataParser {
 
@@ -47,7 +51,10 @@ public class DataParser {
      * @param string the short form
      * @return the resulting item stack, null if the material is invalid
      */
-    public static ItemStack readItem(String string) {
+    @Nullable
+    public static ItemStack readItem(@NotNull String string) {
+
+        Validate.notNull(string, "Input cannot be null");
 
         String[] split = string.split(":");
 

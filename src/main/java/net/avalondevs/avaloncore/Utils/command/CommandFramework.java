@@ -1,6 +1,5 @@
 package net.avalondevs.avaloncore.Utils.command;
 
-import net.gamergeist.core.util.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -75,11 +74,11 @@ public class CommandFramework implements CommandExecutor {
                 Object methodObject = commandMap.get(cmdLabel).getValue();
                 Command command = method.getAnnotation(Command.class);
                 if (!command.permission().equalsIgnoreCase("") && !sender.hasPermission(command.permission())) {
-                    sender.sendMessage(Messages.get("error.commands.no-permission"));
+                    sender.sendMessage("You don't have permission to execute this command");
                     return true;
                 }
                 if (command.inGameOnly() && !(sender instanceof Player)) {
-                    sender.sendMessage(Messages.get("error.commands.only-ingame"));
+                    sender.sendMessage("This command can only be executed as a player");
                     return true;
                 }
                 try {
