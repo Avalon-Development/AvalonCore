@@ -5,3 +5,11 @@ MySQL:
   username: "admin"
   password: "password"
   database: "database"
+vouchers:
+  enabled: false
+  default:
+    material: NAME_TAG
+    lore:
+      - "&7Right-click with"
+      - "&7this in your hand"
+      - "&7to claim the %rank% Rank!"
