@@ -1,18 +1,27 @@
 package net.avalondevs.avaloncore.Commands.voucher;
 
-import net.avalondevs.avaloncore.Utils.Utils;
+import lombok.extern.java.Log;
+import net.avalondevs.avaloncore.Main;
+import net.avalondevs.avaloncore.Utils.*;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
+import net.avalondevs.avaloncore.Utils.command.Completer;
 import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
+import net.luckperms.api.model.group.Group;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 public class VoucherCommand {
 
-    @Command(name = "voucher", permission = "core.voucher")
+    @Command(name = "voucher", permission = "core.voucher", completions = {"info", "add", "get"})
     public void onRootCommand(CommandAdapter adapter) {
 
         adapter.sendMessage("");
+
+
 
     }
 
@@ -26,7 +35,7 @@ public class VoucherCommand {
             Voucher voucher = VoucherManager.getInstance().get(name);
 
             adapter.sendMessage(Utils.PREFIX + " Info for voucher:");
-            adapter.sendMessage("Rank: " + voucher.getRank());
+            adapter.sendMessage("Rank: " + LuckPermsAdapter.getDefiniteName(voucher.group()));
 
         });
 
@@ -37,12 +46,22 @@ public class VoucherCommand {
 
         adapter.requireArg(0, (rank) -> {
 
-           String name = adapter.range(1);
+           Group group = LuckPermsAdapter.getByName(rank);
 
-           Voucher voucher = new Voucher(rank, name);
 
-           VoucherManager.getInstance().add(voucher.rank, voucher);
+           if(group == null) {
 
+                adapter.sendMessage(Utils.PREFIX + " &aThe rank " + rank + " does not exist");
+
+           }else {
+
+               String name = adapter.range(1);
+
+               Voucher voucher = new Voucher(group, Color.fmt(name));
+
+               VoucherManager.getInstance().add(voucher.group().getName(), voucher);
+
+           }
 
         });
 
@@ -55,8 +74,9 @@ public class VoucherCommand {
 
             Voucher voucher = VoucherManager.getInstance().get(rank);
 
-            ItemStack stack; // TODO Generate item for voucher
+            ItemStack stack = voucher.create();
 
+            adapter.getPlayer().getInventory().addItem(stack);
 
 
         });

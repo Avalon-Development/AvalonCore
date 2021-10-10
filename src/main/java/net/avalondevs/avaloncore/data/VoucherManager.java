@@ -6,6 +6,7 @@ import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.Utils.ConfigUtil;
 import net.avalondevs.avaloncore.Utils.dataprovider.DataProvider;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,19 @@ public class VoucherManager extends DataProvider<String, Voucher> {
         return null;
     }
 
+    public Voucher getWithName(String name) {
+
+        for (Voucher value : getCache().values()) {
+
+            if(value.name().equals(name))
+                return value;
+
+        }
+
+        return null;
+
+    }
+
     /**
      * Will mirror the contents of the {@link #getCache()} into config files
      */
@@ -48,7 +62,7 @@ public class VoucherManager extends DataProvider<String, Voucher> {
 
         getCache().forEach((key, voucher) -> {
 
-            File voucherFile = new File(configFolder, voucher.getName() + ".yml");
+            File voucherFile = new File(configFolder, voucher.name() + ".yml");
 
             try {
                 voucherFile.createNewFile();
