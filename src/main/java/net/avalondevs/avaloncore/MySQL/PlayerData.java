@@ -183,6 +183,17 @@ public class PlayerData {
         return b;
     }
 
+    public void isBannedSetter(UUID uuid, boolean b) {
+        PreparedStatement ps;
+        try {
+            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(2,b);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Boolean isMutedGetter(UUID uuid) {
         boolean b = false;
@@ -199,7 +210,16 @@ public class PlayerData {
         return b;
     }
 
-
+    public void isMutedSetter(UUID uuid, boolean b) {
+        PreparedStatement ps;
+        try {
+            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(2,b);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Boolean isIpBannedGetter(UUID uuid) {
         boolean b = false;
@@ -216,6 +236,16 @@ public class PlayerData {
         return b;
     }
 
+    public void isIpBannedSetter(UUID uuid, boolean b) {
+        PreparedStatement ps;
+        try {
+            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(2,b);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Boolean isIpMutedGetter(UUID uuid) {
         boolean b = false;
@@ -230,5 +260,16 @@ public class PlayerData {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public void isIpMutedSetter(UUID uuid, boolean b) {
+        PreparedStatement ps;
+        try {
+            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(2,b);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
