@@ -7,6 +7,8 @@ import net.avalondevs.avaloncore.Commands.Staff.VanishCommand;
 import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import lombok.Getter;
 import lombok.Setter;
+import net.avalondevs.avaloncore.Commands.players.MsgCommand;
+import net.avalondevs.avaloncore.Commands.players.ReplyCommand;
 import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
 import net.avalondevs.avaloncore.Listeners.PlayerListeners;
 import net.avalondevs.avaloncore.MySQL.MySQL;
@@ -39,8 +41,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        instance = this;
-
         LuckPermsAdapter.init();
 
         saveDefaultConfig();
@@ -48,6 +48,8 @@ public final class Main extends JavaPlugin {
         // Init MySQL Database
         SQL = new MySQL();
         data = new SQLGetter(this);
+        staffSQL = new StaffSQL(this);
+        playerData = new PlayerData(this);
 
         try {
             SQL.connect();
@@ -86,6 +88,8 @@ public final class Main extends JavaPlugin {
 
         framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
         framework.registerCommands(new GamemodeCommand()); // load the GamemodeCommand
+        new MsgCommand();
+        new ReplyCommand();
 
     }
 
