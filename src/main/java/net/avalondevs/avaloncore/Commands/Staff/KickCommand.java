@@ -19,14 +19,11 @@ public class KickCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(sender instanceof Player)) {
-            sender.sendMessage(chat("&cOnly players can execute staff commands"));
-        }
 
         Player player = (Player) sender;
 
         if(player.hasPermission("core.staff.kick")) {
-            if(args.length < 0) {
+            if(args.length < 1) {
                 player.sendMessage(chat(getPlugin().getConfig().getString("kick.usage")));
                 return true;
             } else {
