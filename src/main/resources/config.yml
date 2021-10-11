@@ -8,6 +8,7 @@ MySQL:
 vouchers:
   enabled: false
   default:
+    name: "%rank% &7Rank"
     material: NAME_TAG
     lore:
       - "&7Right-click with"

@@ -13,12 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record Voucher(Group group, String name) {
-
-
+public record Voucher(Group group) {
 
     public static ItemStack VOUCHER_TEMPLATE;
     public static List<String> TEMPLATE_LORE;
+    public static String TEMPLATE_NAME;
 
     public static void cache() {
 
@@ -27,13 +26,23 @@ public record Voucher(Group group, String name) {
 
         TEMPLATE_LORE = TEMPLATE_LORE.stream().map(Color::fmt).collect(Collectors.toList());
 
+        TEMPLATE_NAME = Main.getInstance().getConfig().getString("vouchers.default.name");
+
+    }
+
+    public String buildDisplayName() {
+
+        String name = group.getDisplayName();
+        if(name == null)
+            name = group.getFriendlyName();
+
+        return Color.fmt(TEMPLATE_NAME.replace("%rank%", name));
+
     }
 
     public ItemStack create() {
 
         ItemMeta metadata = VOUCHER_TEMPLATE.getItemMeta();
-
-        metadata.setDisplayName(name);
 
         String name = group.getDisplayName();
         if(name == null)
@@ -41,6 +50,10 @@ public record Voucher(Group group, String name) {
 
         String finalName = name;
         metadata.setLore(TEMPLATE_LORE.stream().map(s -> s.replace("%rank%", Color.fmt(finalName))).collect(Collectors.toList()));
+
+        String itemName = Color.fmt(TEMPLATE_NAME.replace("%rank%", finalName));
+
+        metadata.setDisplayName(itemName);
 
         ItemStack newItem = VOUCHER_TEMPLATE.clone();
 

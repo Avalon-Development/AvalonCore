@@ -32,36 +32,19 @@ public class VoucherCommand {
 
         adapter.requireArg(0, (name) -> {
 
-            Voucher voucher = VoucherManager.getInstance().get(name);
+            Group group = LuckPermsAdapter.getByName(name);
+            if(group == null) {
+
+                adapter.sendMessage(Utils.PREFIX + "&c There is no rank by the name of &e" + name);
+                return;
+
+            }
+
+
+            Voucher voucher = VoucherManager.getInstance().get(group);
 
             adapter.sendMessage(Utils.PREFIX + " Info for voucher:");
             adapter.sendMessage("Rank: " + LuckPermsAdapter.getDefiniteName(voucher.group()));
-
-        });
-
-    }
-
-    @Command(name = "voucher.add", permission = "core.voucher.add")
-    public void onAddCommand(CommandAdapter adapter) {
-
-        adapter.requireArg(0, (rank) -> {
-
-           Group group = LuckPermsAdapter.getByName(rank);
-
-
-           if(group == null) {
-
-                adapter.sendMessage(Utils.PREFIX + " &aThe rank " + rank + " does not exist");
-
-           }else {
-
-               String name = adapter.range(1);
-
-               Voucher voucher = new Voucher(group, Color.fmt(name));
-
-               VoucherManager.getInstance().add(voucher.group().getName(), voucher);
-
-           }
 
         });
 
@@ -72,7 +55,15 @@ public class VoucherCommand {
 
         adapter.requireArg(0, (rank) -> {
 
-            Voucher voucher = VoucherManager.getInstance().get(rank);
+            Group group = LuckPermsAdapter.getByName(rank);
+            if(group == null) {
+
+                adapter.sendMessage(Utils.PREFIX + "&c There is no rank by the name of &e" + rank);
+                return;
+
+            }
+
+            Voucher voucher = VoucherManager.getInstance().get(group);
 
             ItemStack stack = voucher.create();
 

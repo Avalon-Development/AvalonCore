@@ -15,6 +15,7 @@ import net.avalondevs.avaloncore.MySQL.StaffSQL;
 import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
 import net.avalondevs.avaloncore.Utils.command.CommandFramework;
 import net.avalondevs.avaloncore.data.Voucher;
+import net.avalondevs.avaloncore.data.VoucherManager;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -64,6 +65,7 @@ public final class Main extends JavaPlugin {
         loadModuleCommands();
 
         Voucher.cache();
+        VoucherManager.instance.cache();
 
         Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
     }

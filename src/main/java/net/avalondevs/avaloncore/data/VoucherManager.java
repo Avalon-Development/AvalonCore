@@ -3,77 +3,56 @@ package net.avalondevs.avaloncore.data;
 import lombok.Getter;
 import lombok.Setter;
 import net.avalondevs.avaloncore.Main;
+import net.avalondevs.avaloncore.Utils.Color;
 import net.avalondevs.avaloncore.Utils.ConfigUtil;
+import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
 import net.avalondevs.avaloncore.Utils.dataprovider.DataProvider;
+import net.luckperms.api.model.group.Group;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VoucherManager extends DataProvider<String, Voucher> {
+import static net.avalondevs.avaloncore.data.Voucher.TEMPLATE_NAME;
+
+public class VoucherManager {
 
     @Getter
     public static VoucherManager instance = new VoucherManager();
 
-    @Override
-    public boolean has(String key) {
-        return false;
-    }
+    public Map<String, Voucher> cache = new HashMap<>();
 
-    public void add(String key, Voucher v) {
+    public Voucher get(Group group) {
 
-        this.getCache().put(key, v); // force cache add
+        Voucher voucher = new Voucher(group);
 
-    }
+        if(!cache.values().contains(voucher))
+            cache.put(voucher.buildDisplayName(), voucher);
 
-    public void remove(String key) {
+        return voucher;
 
-        this.getCache().remove(key); // force cache remove
-
-    }
-
-    @Override
-    public Voucher databaseGet(String key) {
-        return null;
     }
 
     public Voucher getWithName(String name) {
 
-        for (Voucher value : getCache().values()) {
-
-            if(value.name().equals(name))
-                return value;
-
-        }
-
-        return null;
+       return cache.get(name);
 
     }
 
-    /**
-     * Will mirror the contents of the {@link #getCache()} into config files
-     */
-    public void write() {
+    public void cache() {
 
-        File configFolder = new File(Main.getInstance().getDataFolder(), "tags");
+        LuckPermsAdapter.luckperms.getGroupManager().loadAllGroups();
 
-        configFolder.mkdirs();
+        LuckPermsAdapter.luckperms.getGroupManager().getLoadedGroups().forEach(group -> {
 
-        getCache().forEach((key, voucher) -> {
+            String name = group.getDisplayName();
+            if(name == null)
+                name = group.getFriendlyName();
 
-            File voucherFile = new File(configFolder, voucher.name() + ".yml");
-
-            try {
-                voucherFile.createNewFile();
-
-                Configuration configuration = ConfigUtil.ensureConfig(voucherFile); // load the config for the voucher
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            cache.put(Color.fmt(TEMPLATE_NAME.replace("%rank%", name)), new Voucher(group));
 
         });
 
