@@ -1,18 +1,16 @@
 package net.avalondevs.avaloncore.Listeners;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import static net.avalondevs.avaloncore.Main.playerData;
-import static net.avalondevs.avaloncore.Main.staffSQL;
 import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
 public class ChatListener implements Listener {
 
-    @EventHandler
+    @EventHandler @Deprecated
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 

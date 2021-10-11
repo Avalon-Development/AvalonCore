@@ -2,6 +2,7 @@ package net.avalondevs.avaloncore;
 
 import net.avalondevs.avaloncore.Commands.Staff.FreezeeCommand;
 import net.avalondevs.avaloncore.Commands.Staff.GamemodeCommand;
+import net.avalondevs.avaloncore.Commands.Staff.MuteCommand;
 import net.avalondevs.avaloncore.Commands.Staff.VanishCommand;
 import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import lombok.Getter;
@@ -92,6 +93,7 @@ public final class Main extends JavaPlugin {
         new TagsCommand();
         new VanishCommand();
         new FreezeeCommand();
+        new MuteCommand();
     }
 
     public static Main getPlugin() {
