@@ -1,43 +1,52 @@
 package net.avalondevs.avaloncore.Commands.Staff;
 
-import net.avalondevs.avaloncore.Utils.Utils;
+import net.avalondevs.avaloncore.Utils.command.Command;
+import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
+import net.avalondevs.avaloncore.punishments.Punishments;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import static net.avalondevs.avaloncore.Main.getPlugin;
-import static net.avalondevs.avaloncore.Utils.Utils.chat;
+import java.util.UUID;
 
-public class KickCommand implements CommandExecutor {
+public class KickCommand {
 
-    public KickCommand() {
-        getPlugin().getCommand("kick").setExecutor(this);
-    }
+    @Command(name = "kick", permission = "core.staff.kick")
+    public void onCommand(CommandAdapter adapter) {
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        UUID banner = adapter.isPlayer() ? adapter.getPlayer().getUniqueId() : Punishments.consoleUUID;
 
-        Player player = (Player) sender;
+        if (adapter.length() < 1)
+            adapter.fail();
+        else {
 
-        if(player.hasPermission("core.staff.kick")) {
-            if(args.length < 1) {
-                player.sendMessage(chat(getPlugin().getConfig().getString("kick.usage")));
-                return true;
-            } else {
-                Player target = Bukkit.getPlayer(args[0]);
-                String reason = args[1];
-                if(target.isOnline()) {
-                    if(reason.length() < 1) {
-                        player.sendMessage(Utils.PREFIX + " &7You must provide a reason");
-                    } else {
-                        target.kickPlayer("You have been kicked for " + reason);
-                    }
-                }
+            String targetName = adapter.getArgs(0);
+
+            Player player = Bukkit.getPlayer(targetName);
+
+            if (player == null) {
+
+                adapter.sendFMessage("error.player.not-found");
+                return;
+
             }
+
+            if (adapter.optionalArg(1, (ignored) -> {
+
+                String reason = adapter.range(1);
+
+                Punishments.kick(player, banner, reason);
+
+                adapter.sendMessage("command.kick.execute", targetName, reason);
+
+            })) {
+
+                Punishments.kick(player, banner);
+
+                adapter.sendMessage("command.kick.execute", targetName, Punishments.defaultReason);
+
+            }
+
         }
-        return true;
+
     }
 }

@@ -10,12 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import static net.avalondevs.avaloncore.Main.getPlugin;
-
 public class ReplyCommand implements CommandExecutor {
 
     public ReplyCommand() {
-        getPlugin().getCommand("reply").setExecutor(this);
+        //getPlugin().getCommand("reply").setExecutor(this);
     }
 
     Plugin plugin = Main.getPlugin(Main.class);

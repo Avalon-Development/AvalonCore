@@ -1,12 +1,9 @@
 package net.avalondevs.avaloncore;
 
-import net.avalondevs.avaloncore.Commands.Staff.FreezeeCommand;
-import net.avalondevs.avaloncore.Commands.Staff.GamemodeCommand;
-import net.avalondevs.avaloncore.Commands.Staff.MuteCommand;
-import net.avalondevs.avaloncore.Commands.Staff.VanishCommand;
-import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import lombok.Getter;
 import lombok.Setter;
+import net.avalondevs.avaloncore.Commands.Staff.*;
+import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import net.avalondevs.avaloncore.Commands.players.MsgCommand;
 import net.avalondevs.avaloncore.Commands.players.ReplyCommand;
 import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
@@ -15,11 +12,13 @@ import net.avalondevs.avaloncore.MySQL.MySQL;
 import net.avalondevs.avaloncore.MySQL.PlayerData;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
 import net.avalondevs.avaloncore.MySQL.StaffSQL;
+import net.avalondevs.avaloncore.Utils.ConfigUtil;
+import net.avalondevs.avaloncore.Utils.I18N;
 import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
 import net.avalondevs.avaloncore.Utils.command.CommandFramework;
 import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
-import net.luckperms.api.LuckPermsProvider;
+import net.avalondevs.avaloncore.punishments.Punishments;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,9 +40,20 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        setInstance(this);
+        plugin = this;
+
         LuckPermsAdapter.init();
 
         saveDefaultConfig();
+
+        ConfigUtil.updateConfig(this, "config.yml"); // update config file
+
+        saveResource("messages.yml", false);
+
+        ConfigUtil.updateConfig(this, "messages.yml");
+
+        I18N i18n = new I18N();
 
         // Init MySQL Database
         SQL = new MySQL();
@@ -70,6 +80,8 @@ public final class Main extends JavaPlugin {
         Voucher.cache();
         VoucherManager.instance.cache();
 
+        Punishments.load();
+
         Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
     }
 
@@ -88,6 +100,15 @@ public final class Main extends JavaPlugin {
 
         framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
         framework.registerCommands(new GamemodeCommand()); // load the GamemodeCommand
+
+        // moderation
+
+        framework.registerCommands(new TempBanCommand()); // load the tempban command
+        framework.registerCommands(new UnbanCommand()); // load the unban command
+        framework.registerCommands(new HistoryCommand());
+        framework.registerCommands(new MuteCommand());
+        framework.registerCommands(new KickCommand());
+
         new MsgCommand();
         new ReplyCommand();
 
@@ -97,7 +118,6 @@ public final class Main extends JavaPlugin {
         new TagsCommand();
         new VanishCommand();
         new FreezeeCommand();
-        new MuteCommand();
     }
 
     public static Main getPlugin() {

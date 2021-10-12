@@ -1,17 +1,12 @@
 package net.avalondevs.avaloncore.Commands.voucher;
 
-import lombok.extern.java.Log;
-import net.avalondevs.avaloncore.Main;
-import net.avalondevs.avaloncore.Utils.*;
+import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
+import net.avalondevs.avaloncore.Utils.Utils;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
-import net.avalondevs.avaloncore.Utils.command.Completer;
 import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
 import net.luckperms.api.model.group.Group;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 public class VoucherCommand {
@@ -35,7 +30,7 @@ public class VoucherCommand {
             Group group = LuckPermsAdapter.getByName(name);
             if(group == null) {
 
-                adapter.sendMessage(Utils.PREFIX + "&c There is no rank by the name of &e" + name);
+                adapter.sendMessage("error.rank.not-found", name);
                 return;
 
             }
@@ -58,7 +53,7 @@ public class VoucherCommand {
             Group group = LuckPermsAdapter.getByName(rank);
             if(group == null) {
 
-                adapter.sendMessage(Utils.PREFIX + "&c There is no rank by the name of &e" + rank);
+                adapter.sendMessage("error.rank.not-found", rank);
                 return;
 
             }

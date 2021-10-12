@@ -189,6 +189,18 @@ public class CommandAdapter {
         return true;
     }
 
+    public boolean requireArg(int index, Consumer<String> runner, Consumer<Void> error) {
+
+        if(index < length()) {
+            if (runner != null)
+                runner.accept(getArgs(index));
+            return false;
+        }
+
+        error.accept(null);
+        return true;
+    }
+
     public boolean optionalArg(int index, Consumer<String> runner) {
 
         return requireArg(index, runner);

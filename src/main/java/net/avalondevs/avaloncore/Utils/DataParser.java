@@ -1,10 +1,8 @@
 package net.avalondevs.avaloncore.Utils;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,12 +58,55 @@ public class DataParser {
 
         Material material = StrUtil.nameToEnum(split[0], Material.class);
 
-        if(material == null)
+        if (material == null)
             return null;
 
         int amount = Integer.parseInt(ArrayUtil.getOrDefault(split, 1, "1"));
 
         return new ItemStack(material, amount);
+    }
+
+    public static long readTime(String time) {
+
+        long timeBuffer = 0;
+
+        StringBuilder buffer = new StringBuilder();
+        for (char c : time.toCharArray()) {
+
+            if (Character.isDigit(c)) {
+
+                buffer.append(c);
+
+            } else {
+
+                String finalS = buffer.toString();
+
+                if(buffer.isEmpty())
+                    continue;
+
+                long res = Long.parseLong(finalS);
+
+                switch (c) {
+
+                    case 'y' -> res *= 31557600000L;
+                    case 'w' -> res *= 604800000L;
+                    case 'd' -> res *= 86400000L;
+                    case 'h' -> res *= 3600000L;
+                    case 'm' -> res *= 60000L;
+                    case 's' -> res *= 1000L;
+
+                }
+
+                buffer = new StringBuilder();
+
+                timeBuffer += res;
+
+            }
+
+        }
+
+        return timeBuffer;
+
     }
 
 }

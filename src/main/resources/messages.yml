@@ -16,19 +16,29 @@ command:
   kick:
     help: "&c/<command> <player> [reason]"
     execute: "&7Kicked player &e{0} &7for the reason &e{1}"
+  tempmute:
+    help: "&c/<command> <player> <time> [reason]"
+    execute: "&7Muted player &e{0} &7for &e{1} &7for the reason &e{2}"
+  mute:
+    help: "&c/<command> <player> [reason]"
+    execute: "&7Muted player &e{0} &7for the reason &e{1}"
   unban:
     help: "&c/<command> <player>"
     execute: "&7You unbanned player &e{0}"
   history:
-    help: "&c/<command> <player>"
+    help: "&c/<command> <player> [sort]"
     header: "&7Punishment history for &e{0}"
     entries:
       ban: "&cBan: \n  &7On &e{0} \n  &7by &e{1} \n  &7Reason: &c{2} \n  &7Active: &e{3}"
       tempban: "&cBan: \n  &7On &e{0} \n  &7by &e{1} \n  &7for: {2} \n  &7Reason: &c{3} \n  &7Active: &e{4}"
+      kick: "&cKick: \n  &7On &e{0} \n  &7by &e{1} \n  &7Reason: &c{2}"
+      tempmute: "&cMute: \n  &7On &e{0} \n  &7by &e{1} \n  &7for: {2} \n  &7Reason: &c{3} \n  &7Active: &e{4}"
+      mute: "&cMute: \n  &7On &e{0} \n  &7by &e{1} \n  &7Reason: &c{2} \n  &7Active: &e{3}"
 punishments:
   default:
     kick: "&cYou have been kicked from the server"
     ban: "&cYou have been banned from the server"
+    mute: "&cYou have been muted"
   response:
     ban:
       - "&cYou have been &4permanently &cbanned from the server"
@@ -39,3 +49,5 @@ punishments:
       - "&cModerator: &e{0}"
       - "&cUntil: &e{1}"
       - "&cReason: &7{2}"
+    mute:
+      - "&cYou are muted {0} &cReason: &e{1}"

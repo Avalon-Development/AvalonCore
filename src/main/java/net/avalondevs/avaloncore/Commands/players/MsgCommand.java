@@ -9,15 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import static net.avalondevs.avaloncore.Main.getPlugin;
 
 public class MsgCommand implements CommandExecutor, Listener {
 
     public MsgCommand() {
-        getPlugin().getCommand("msg").setExecutor(this);
+        //getPlugin().getCommand("msg").setExecutor(this);
     }
 
     public static Map<Player, Player> KnownSender = new HashMap<>();
