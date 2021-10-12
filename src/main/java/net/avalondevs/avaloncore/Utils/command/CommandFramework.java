@@ -1,5 +1,6 @@
 package net.avalondevs.avaloncore.Utils.command;
 
+import net.avalondevs.avaloncore.Utils.I18N;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -81,13 +82,15 @@ public class CommandFramework implements CommandExecutor {
                     sender.sendMessage("This command can only be executed as a player");
                     return true;
                 }
+
+                CommandAdapter adapter = new CommandAdapter(sender, cmd, label, args,
+                        cmdLabel.split("\\.").length - 1, command);
                 try {
-                    method.invoke(methodObject, new CommandAdapter(sender, cmd, label, args,
-                            cmdLabel.split("\\.").length - 1, command));
+                    method.invoke(methodObject, adapter);
                 } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
-                return true;
+                return !adapter.fail;
             }
         }
         defaultCommand(new CommandAdapter(sender, cmd, label, args, 0, null));
@@ -109,9 +112,6 @@ public class CommandFramework implements CommandExecutor {
                     continue;
                 }
                 registerCommand(command, command.name(), m, obj);
-                for (String alias : command.aliases()) {
-                    registerCommand(command, alias, m, obj);
-                }
             } else if (m.getAnnotation(Completer.class) != null) {
                 Completer comp = m.getAnnotation(Completer.class);
                 if (m.getParameterTypes().length != 1
@@ -155,21 +155,37 @@ public class CommandFramework implements CommandExecutor {
 
         String cmdLabel = label.split("\\.")[0].toLowerCase();
 
+
         if (map.getCommand(cmdLabel) == null) {
             org.bukkit.command.Command cmd = new BukkitCommand(cmdLabel, this, plugin);
+
+            cmd.setAliases(Arrays.asList(command.aliases()));
+
             map.register(plugin.getName(), cmd);
         }
 
-        if (!command.description().equalsIgnoreCase("") && cmdLabel.equals(label)) {
-            map.getCommand(cmdLabel).setDescription(command.description());
+        BukkitCommand cmd = (BukkitCommand) map.getCommand(cmdLabel);
+
+
+        String description = command.description();
+        if (command.i18n() && description.isEmpty()) {
+            description = I18N.getInstance().format("command." + label + ".description");
         }
 
-        if (!command.usage().equalsIgnoreCase("") && cmdLabel.equals(label)) {
-            map.getCommand(cmdLabel).setUsage(command.usage());
+        if (!description.isEmpty())
+            cmd.setDescription(description);
+
+        String help = command.usage();
+        if (command.i18n() && help.isEmpty()) {
+
+            help = I18N.getInstance().format("command." + label + ".help");
+
         }
 
-        if(command.completions().length != 0) {
-            BukkitCommand cmd = (BukkitCommand) map.getCommand(cmdLabel);
+        if (!help.isEmpty())
+            cmd.setUsage(help);
+
+        if (command.completions().length != 0) {
             if (cmd.completer == null) {
                 cmd.completer = new BukkitCompleter();
             }

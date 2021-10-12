@@ -3,6 +3,7 @@ package net.avalondevs.avaloncore.Utils.command;
 import lombok.Getter;
 import lombok.Setter;
 import net.avalondevs.avaloncore.Utils.Color;
+import net.avalondevs.avaloncore.Utils.I18N;
 import net.avalondevs.avaloncore.Utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ public class CommandAdapter {
     @Getter
     @Setter
     public int currentArg; // primarily used for Acceptors
+    public boolean fail = false;
 
     protected CommandAdapter(CommandSender sender, org.bukkit.command.Command command, String label, String[] args,
                              int subCommand, Command annotation) {
@@ -116,8 +118,20 @@ public class CommandAdapter {
     }
 
     public void sendUsage() {
-        getSender().sendMessage(Color.fmt("&cUsage: " + annotation.usage()));
+        fail = true;
     }
+
+    /**
+     * Same result as returning {@code null} in the
+     * {@link org.bukkit.command.CommandExecutor#onCommand(CommandSender, org.bukkit.command.Command, String, String[])}
+     * method
+     */
+    public void fail() {
+
+        fail = true;
+
+    }
+
 
     public void sendNoPermission() {
 
@@ -128,6 +142,24 @@ public class CommandAdapter {
     public void sendMessage(String message) {
 
         getSender().sendMessage(Color.fmt(message));
+
+    }
+
+    public void sendMessage(String key, Object... args) {
+
+        getSender().sendMessage(Utils.PREFIX + " " + Color.fmt(I18N.getInstance().format(key, args)));
+
+    }
+
+    public void sendFMessage(String key, Object... args) {
+
+        getSender().sendMessage(Utils.PREFIX + " " + Color.fmt(I18N.getInstance().format(key, args)));
+
+    }
+
+    public void sendFMessageNoPrefix(String key, Object... args) {
+
+        getSender().sendMessage(Color.fmt(I18N.getInstance().format(key, args)));
 
     }
 

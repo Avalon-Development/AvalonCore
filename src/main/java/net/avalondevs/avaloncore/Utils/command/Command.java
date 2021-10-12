@@ -73,4 +73,9 @@ public @interface Command {
      * @return
      */
     String[] completions() default {};
+
+    /**
+     *
+     */
+    boolean i18n() default true;
 }
