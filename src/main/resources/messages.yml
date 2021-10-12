@@ -1,0 +1,41 @@
+error:
+  rank:
+    not-found: "&cThere is no rank by the name of &e{0}"
+  player:
+    not-found: "&cThere is no such player"
+    not-banned: "&cThat player is not banned"
+command:
+  tempban:
+    help:
+      - "&c/<command> <player> <time> [reason]"
+    execute: "&7Banned player &e{0} &7for &e{1} &7for the reason &e{2}"
+  ban:
+    help:
+      - "&c/<command> <player> [reason]"
+    execute: "&7Banned player &e{0} &7for the reason &e{1}"
+  kick:
+    help: "&c/<command> <player> [reason]"
+    execute: "&7Kicked player &e{0} &7for the reason &e{1}"
+  unban:
+    help: "&c/<command> <player>"
+    execute: "&7You unbanned player &e{0}"
+  history:
+    help: "&c/<command> <player>"
+    header: "&7Punishment history for &e{0}"
+    entries:
+      ban: "&cBan: \n  &7On &e{0} \n  &7by &e{1} \n  &7Reason: &c{2} \n  &7Active: &e{3}"
+      tempban: "&cBan: \n  &7On &e{0} \n  &7by &e{1} \n  &7for: {2} \n  &7Reason: &c{3} \n  &7Active: &e{4}"
+punishments:
+  default:
+    kick: "&cYou have been kicked from the server"
+    ban: "&cYou have been banned from the server"
+  response:
+    ban:
+      - "&cYou have been &4permanently &cbanned from the server"
+      - "&cModerator: &e{0}"
+      - "&cReason: &7{1}"
+    tempban:
+      - "&cYou have been &4temporarily &csuspended from the server"
+      - "&cModerator: &e{0}"
+      - "&cUntil: &e{1}"
+      - "&cReason: &7{2}"
