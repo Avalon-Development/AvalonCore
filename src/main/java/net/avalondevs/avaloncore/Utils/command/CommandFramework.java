@@ -13,6 +13,7 @@ import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -29,12 +30,12 @@ public class CommandFramework implements CommandExecutor {
 
     private final Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
     private CommandMap map;
-    private final Plugin plugin;
+    private final JavaPlugin plugin;
 
     /**
      * Initializes the command framework and sets up the command maps
      */
-    public CommandFramework(Plugin plugin) {
+    public CommandFramework(JavaPlugin plugin) {
         this.plugin = plugin;
         if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
             SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
@@ -166,6 +167,11 @@ public class CommandFramework implements CommandExecutor {
 
         BukkitCommand cmd = (BukkitCommand) map.getCommand(cmdLabel);
 
+        if(plugin.getServer().getPluginCommand(cmdLabel) != null) { // global overwrite
+
+            plugin.getServer().getPluginCommand(cmdLabel).setExecutor(this);
+
+        }
 
         String description = command.description();
         if (command.i18n() && description.isEmpty()) {
