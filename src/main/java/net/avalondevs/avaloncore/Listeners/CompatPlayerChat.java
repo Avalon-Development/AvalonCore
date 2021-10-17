@@ -18,7 +18,7 @@ public class CompatPlayerChat implements Cancellable {
 
 
 
-
+//ignore
     public CompatPlayerChat(Event event) {
         final Class<?> cl = event.getClass();
 

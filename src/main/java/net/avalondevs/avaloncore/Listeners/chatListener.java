@@ -30,5 +30,5 @@ public class chatListener implements Listener, EventExecutor {
         e.setFormat(getPlugin().getConfig().getString("chat.format").replace("%prefix%", getPrefix(player.getUniqueId())).replace("%player%",player.getName()).replace("%message%",message));
     }
 
-
+//ignore
 }
