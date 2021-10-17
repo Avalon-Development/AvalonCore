@@ -12,3 +12,6 @@ commands:
     description: Hides you from all normal players.
     usage: /<command>
     aliases: ["v"]
+  mute:
+    description: Mutes a player.
+    usage: /<command> [player] [reason]
