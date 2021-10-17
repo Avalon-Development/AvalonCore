@@ -105,6 +105,7 @@ public final class Main extends JavaPlugin {
      * This method will load the commands that don't depend on databasing to be enabled
      */
     void loadModuleCommands() {
+
         framework.registerCommands(new MsgCommand());
         framework.registerCommands(new ReplyCommand());
         framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
@@ -123,11 +124,15 @@ public final class Main extends JavaPlugin {
         framework.registerCommands(new SocialSpyCommand());
         framework.registerCommands(new MuteCommand());
         framework.registerCommands(new KickCommand());
+
     }
     void loadCommands() {
+        
         new TagsCommand();
-        new VanishCommand();
-        new FreezeeCommand();
+        framework.registerCommands(new VanishCommand());
+        framework.registerCommands(new FreezeeCommand());
+        framework.registerCommands(new UnFreeze());
+
     }
 
     public static Main getPlugin() {

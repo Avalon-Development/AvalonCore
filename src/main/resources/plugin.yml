@@ -3,15 +3,3 @@ version: '${project.version}'
 main: net.avalondevs.avaloncore.Main
 api-version: 1.16
 authors: [ AvalonDevs ]
-
-commands:
-  freeze:
-    description: 'target player is unable to move'
-    usage: /<command> [player]
-  vanish:
-    description: Hides you from all normal players.
-    usage: /<command>
-    aliases: ["v"]
-  mute:
-    description: Mutes a player.
-    usage: /<command> [player] [reason]
