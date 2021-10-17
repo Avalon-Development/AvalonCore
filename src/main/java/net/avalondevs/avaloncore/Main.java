@@ -114,8 +114,8 @@ public final class Main extends JavaPlugin {
 
         framework.registerCommands(new HistoryCommand());
 
-        //framework.registerCommands(new MuteCommand());
-        //framework.registerCommands(new KickCommand());
+        framework.registerCommands(new MuteCommand());
+        framework.registerCommands(new KickCommand());
     }
     void loadCommands() {
         new TagsCommand();
