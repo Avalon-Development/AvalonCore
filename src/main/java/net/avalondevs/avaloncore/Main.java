@@ -31,6 +31,7 @@ public final class Main extends JavaPlugin {
     public static SQLGetter data;
     public static StaffSQL staffSQL;
     public static PlayerData playerData;
+    CommandFramework framework = new CommandFramework(this); // initialize a new framework
 
 
     @Getter
@@ -39,6 +40,9 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Bukkit.getConsoleSender().sendMessage("===============");
+        Bukkit.getConsoleSender().sendMessage("§b* Name: &f" + getDescription().getName());
+        Bukkit.getConsoleSender().sendMessage("===============");
 
         setInstance(this);
         plugin = this;
@@ -72,7 +76,7 @@ public final class Main extends JavaPlugin {
             staffSQL.createTable();
             playerData.createTable();
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
-            loadCommands();
+            //loadCommands();
         }
 
         loadModuleCommands();
@@ -87,7 +91,9 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getConsoleSender().sendMessage("===============");
+        Bukkit.getConsoleSender().sendMessage("§cPlugin disabled");
+        Bukkit.getConsoleSender().sendMessage("===============");
     }
 
 
@@ -95,25 +101,22 @@ public final class Main extends JavaPlugin {
      * This method will load the commands that don't depend on databasing to be enabled
      */
     void loadModuleCommands() {
-
-        CommandFramework framework = new CommandFramework(this); // initialize a new framework
-
+        framework.registerCommands(new MsgCommand());
+        framework.registerCommands(new ReplyCommand());
         framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
         framework.registerCommands(new GamemodeCommand()); // load the GamemodeCommand
 
         // moderation
 
         framework.registerCommands(new TempBanCommand()); // load the tempban command
+
         framework.registerCommands(new UnbanCommand()); // load the unban command
+
         framework.registerCommands(new HistoryCommand());
-        framework.registerCommands(new MuteCommand());
-        framework.registerCommands(new KickCommand());
 
-        new MsgCommand();
-        new ReplyCommand();
-
+        //framework.registerCommands(new MuteCommand());
+        //framework.registerCommands(new KickCommand());
     }
-
     void loadCommands() {
         new TagsCommand();
         new VanishCommand();

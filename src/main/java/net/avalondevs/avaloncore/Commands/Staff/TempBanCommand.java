@@ -20,17 +20,13 @@ public class TempBanCommand {
             adapter.fail();
         else {
 
-            String targetName = adapter.getArgs(0);
+            String targetName = String.valueOf(adapter.getArgs());
             String time = adapter.getArgs(1);
 
             long until = DataParser.readTime(time);
 
-            if(time.equals("perm")) {
-                until = -1;
-                time = "permanently";
-            }
 
-            OfflinePlayer player = Bukkit.getOfflinePlayer(targetName);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(String.valueOf(targetName));
 
             String finalTime = time;
             long finalUntil = until;

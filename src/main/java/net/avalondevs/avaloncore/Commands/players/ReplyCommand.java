@@ -1,59 +1,41 @@
 package net.avalondevs.avaloncore.Commands.players;
 
-import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.Utils.Utils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import net.avalondevs.avaloncore.Utils.command.Command;
+import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 
-public class ReplyCommand implements CommandExecutor {
+import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
+import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
-    public ReplyCommand() {
-        //getPlugin().getCommand("reply").setExecutor(this);
-    }
+public class ReplyCommand {
 
-    Plugin plugin = Main.getPlugin(Main.class);
+    @Command(name = "r", aliases = { "reply" })
+    public void onCommand(CommandAdapter adapter) {
+        Player player = adapter.getPlayer();
 
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
-            return true;
-        }
-
-        Player player = (Player) sender;
-
-        if(args.length == 1) {
+        if(adapter.length() == 1) {
             Player target = MsgCommand.KnownSender.get(player);
-            String message = getMessage(args);
+            String message = getMessage(adapter.getArgs(), 0);
             if(target != null) {
                 if(target.isOnline()) {
-                    target.sendMessage(Utils.chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
-                    sender.sendMessage(Utils.chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
+                    target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
+                    player.sendMessage(chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
                 } else {
-                    sender.sendMessage(Utils.chat("&cPlayer not found!"));
+                    player.sendMessage(chat("&cPlayer not found!"));
                 }
             } else {
-                sender.sendMessage(Utils.chat("&cNo messages found"));
+                player.sendMessage(chat("&cNo messages found"));
             }
-
+        } else {
+            player.sendMessage(chat(PREFIX + " &7Invalid arguments"));
         }
-        return false;
     }
 
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        MsgCommand.KnownSender.remove(e.getPlayer());
-    }
-
-    private static String getMessage(String[] args) {
+    private static String getMessage(String[] args, int index) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < args.length; i++) {
+        for(int i = index; i < args.length; i++) {
             sb.append(args[i]).append(" ");
         }
         sb.setLength(sb.length() - 1);

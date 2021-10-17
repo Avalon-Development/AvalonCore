@@ -21,7 +21,7 @@ public class KickCommand {
 
             String targetName = adapter.getArgs(0);
 
-            Player player = Bukkit.getPlayer(targetName);
+            Player player = Bukkit.getPlayer(String.valueOf(targetName));
 
             if (player == null) {
 

@@ -106,7 +106,7 @@ public class HistoryCommand {
 
             String target = adapter.getArgs(0);
 
-            OfflinePlayer player = Bukkit.getOfflinePlayer(target);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(String.valueOf(target));
 
             final List<PunishmentEntry>[] active = new List[]{Punishments.resolveUserActive(player.getUniqueId())};
             final List<PunishmentEntry>[] archived = new List[]{Punishments.resolveUserArchived(player.getUniqueId())};

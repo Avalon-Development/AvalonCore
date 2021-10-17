@@ -22,7 +22,7 @@ public class MuteCommand {
 
             String targetName = adapter.getArgs(0);
 
-            OfflinePlayer player = Bukkit.getOfflinePlayer(targetName);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(String.valueOf(targetName));
 
             if (adapter.optionalArg(1, (ignored) -> {
 
@@ -58,12 +58,7 @@ public class MuteCommand {
 
             long until = DataParser.readTime(time);
 
-            if(time.equals("perm")) {
-                until = -1;
-                time = "permanently";
-            }
-
-            OfflinePlayer player = Bukkit.getOfflinePlayer(targetName);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(String.valueOf(targetName));
 
             String finalTime = time;
             long finalUntil = until;

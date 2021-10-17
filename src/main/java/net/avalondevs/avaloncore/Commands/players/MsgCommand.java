@@ -1,60 +1,44 @@
 package net.avalondevs.avaloncore.Commands.players;
 
 import net.avalondevs.avaloncore.Utils.Utils;
+import net.avalondevs.avaloncore.Utils.command.Command;
+import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MsgCommand implements CommandExecutor, Listener {
+import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
+import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
-    public MsgCommand() {
-        //getPlugin().getCommand("msg").setExecutor(this);
-    }
+public class MsgCommand  {
 
     public static Map<Player, Player> KnownSender = new HashMap<>();
-
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
-            return true;
-        }
-
-        Player player = (Player) sender;
-
-        if(args.length >= 2) {
-            Player target = Bukkit.getPlayer(args[0]);
-            String message = getMessage(args);
+    
+    @Command(name = "msg", aliases = {"message"})
+    public void onCommand(CommandAdapter adapter) {
+        Player player = adapter.getPlayer();
+        if(adapter.length() == 2) {
+            Player target = Bukkit.getPlayer(adapter.getArgs(0));
+            String message = getMessage(adapter.getArgs(), 0);
             assert target != null;
             if(target.isOnline()) {
-                target.sendMessage(Utils.chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
-                sender.sendMessage(Utils.chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
+                target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
+                player.sendMessage(chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
                 KnownSender.put(target, player);
                 KnownSender.put(player, target);
             } else {
-                player.sendMessage(Utils.chat("&c Spilleren "+ target.getName() + " Er ikke online!"));
+                player.sendMessage(chat("&c Player "+ target.getName() + " is not online!"));
             }
+        } else {
+            player.sendMessage(chat(PREFIX + " &7Invalid arguments!"));
         }
-        return false;
     }
 
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        KnownSender.remove(e.getPlayer());
-    }
-
-    private static String getMessage(String[] args) {
+    private static String getMessage(String[] args, int index) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 1; i < args.length; i++) {
+        for(int i = index; i < args.length; i++) {
             sb.append(args[i]).append(" ");
         }
         sb.setLength(sb.length() - 1);
