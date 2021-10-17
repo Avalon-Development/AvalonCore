@@ -27,9 +27,13 @@ import java.sql.SQLException;
 
 public final class Main extends JavaPlugin {
     public static Main plugin;
+    @Getter
     public static MySQL SQL;
+    @Getter
     public static SQLGetter data;
+    @Getter
     public static StaffSQL staffSQL;
+    @Getter
     public static PlayerData playerData;
     CommandFramework framework = new CommandFramework(this); // initialize a new framework
 
@@ -41,7 +45,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage("===============");
-        Bukkit.getConsoleSender().sendMessage("§b* Name: &f" + getDescription().getName());
+        Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "* Name: &f" + getDescription().getName());
         Bukkit.getConsoleSender().sendMessage("===============");
 
         setInstance(this);
@@ -92,7 +96,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage("===============");
-        Bukkit.getConsoleSender().sendMessage("§cPlugin disabled");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Plugin disabled"); // DarkNet 10/17/2021: Don't use the raw § symbol
         Bukkit.getConsoleSender().sendMessage("===============");
     }
 
@@ -111,15 +115,14 @@ public final class Main extends JavaPlugin {
         framework.registerCommands(new TempBanCommand()); // load the tempban command
 
         framework.registerCommands(new UnbanCommand()); // load the unban command
+        framework.registerCommands(new TempMuteCommand());
 
         framework.registerCommands(new HistoryCommand());
 
-        /*
-        framework.registerCommands(new MuteCommand());
-        framework.registerCommands(new TempmuteCommand());
-        */
         framework.registerCommands(new KickCommand());
         framework.registerCommands(new SocialSpyCommand());
+        framework.registerCommands(new MuteCommand());
+        framework.registerCommands(new KickCommand());
     }
     void loadCommands() {
         new TagsCommand();
