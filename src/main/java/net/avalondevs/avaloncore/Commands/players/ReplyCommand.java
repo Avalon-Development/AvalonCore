@@ -1,6 +1,5 @@
 package net.avalondevs.avaloncore.Commands.players;
 
-import net.avalondevs.avaloncore.Utils.Utils;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.entity.Player;
@@ -14,9 +13,9 @@ public class ReplyCommand {
     public void onCommand(CommandAdapter adapter) {
         Player player = adapter.getPlayer();
 
-        if(adapter.length() == 1) {
+        if(adapter.length() >= 1) {
             Player target = MsgCommand.KnownSender.get(player);
-            String message = getMessage(adapter.getArgs(), 0);
+            String message = adapter.range(0);
             if(target != null) {
                 if(target.isOnline()) {
                     target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));

@@ -19,9 +19,9 @@ public class MsgCommand  {
     @Command(name = "msg", aliases = {"message"})
     public void onCommand(CommandAdapter adapter) {
         Player player = adapter.getPlayer();
-        if(adapter.length() == 2) {
+        if(adapter.length() >= 2) {
             Player target = Bukkit.getPlayer(adapter.getArgs(0));
-            String message = getMessage(adapter.getArgs(), 0);
+            String message = adapter.range(1);
             assert target != null;
             if(target.isOnline()) {
                 target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
