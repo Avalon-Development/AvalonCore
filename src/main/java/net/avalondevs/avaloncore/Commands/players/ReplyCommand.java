@@ -1,7 +1,9 @@
 package net.avalondevs.avaloncore.Commands.players;
 
+import net.avalondevs.avaloncore.Commands.Staff.SocialSpyCommand;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import static net.avalondevs.avaloncore.Utils.Utils.*;
@@ -19,8 +21,15 @@ public class ReplyCommand {
                 if(target.isOnline()) {
                     target.sendMessage(chat("&fFrom " + "&b" + getPrefix(player.getUniqueId()) + player.getName() + "&8: " + "&f" + message));
                     player.sendMessage(chat("&fTo " + "&b" + getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
+                    for(Player staff : Bukkit.getOnlinePlayers()) {
+                        if(staff.hasPermission("core.staff.socialspy")) {
+                            if(SocialSpyCommand.sp.contains(staff)) {
+                                staff.sendMessage(chat(PREFIX + "&6[SOCIAL SPY] &f" + getPrefix(player.getUniqueId()) + player.getName() +"&6> &f" + getPrefix(target.getUniqueId()) + target.getName() + "&9" + message));
+                            }
+                        }
+                    }
                 } else {
-                    player.sendMessage(chat("&cPlayer not found!"));
+                    player.sendMessage("player not found");
                 }
             } else {
                 player.sendMessage(chat("&cNo messages found"));

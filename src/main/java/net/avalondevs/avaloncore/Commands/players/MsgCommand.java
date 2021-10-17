@@ -1,5 +1,6 @@
 package net.avalondevs.avaloncore.Commands.players;
 
+import net.avalondevs.avaloncore.Commands.Staff.SocialSpyCommand;
 import net.avalondevs.avaloncore.Utils.Utils;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
@@ -27,20 +28,18 @@ public class MsgCommand  {
                 player.sendMessage(chat("&fTo " + "&b" + getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
                 KnownSender.put(target, player);
                 KnownSender.put(player, target);
+                for(Player staff : Bukkit.getOnlinePlayers()) {
+                    if(staff.hasPermission("core.staff.socialspy")) {
+                        if(SocialSpyCommand.sp.contains(staff)) {
+                            staff.sendMessage(chat(PREFIX + "&6[SOCIAL SPY] &f" + getPrefix(player.getUniqueId()) + player.getName() +"&6> &f" + getPrefix(target.getUniqueId()) + target.getName() + "&9" + message));
+                        }
+                    }
+                }
             } else {
                 player.sendMessage(chat("&c Player "+ target.getName() + " is not online!"));
             }
         } else {
             player.sendMessage(chat(PREFIX + " &7Invalid arguments!"));
         }
-    }
-
-    private static String getMessage(String[] args, int index) {
-        StringBuilder sb = new StringBuilder();
-        for(int i = index; i < args.length; i++) {
-            sb.append(args[i]).append(" ");
-        }
-        sb.setLength(sb.length() - 1);
-        return sb.toString();
     }
 }
