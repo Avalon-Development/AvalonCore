@@ -122,6 +122,7 @@ public final class Main extends JavaPlugin {
         framework.registerCommands(new SocialSpyCommand());
         framework.registerCommands(new VanishCommand());
         framework.registerCommands(new FreezeeCommand());
+        framework.registerCommands(new UnFreeze());
     }
 
     public static Main getPlugin() {
