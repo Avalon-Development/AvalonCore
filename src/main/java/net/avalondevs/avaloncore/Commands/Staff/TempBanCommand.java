@@ -6,6 +6,7 @@ import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import net.avalondevs.avaloncore.punishments.Punishments;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -20,13 +21,13 @@ public class TempBanCommand {
             adapter.fail();
         else {
 
-            String targetName = String.valueOf(adapter.getArgs());
+            Player targetName = Bukkit.getPlayer(adapter.getArgs(0));
             String time = adapter.getArgs(1);
 
             long until = DataParser.readTime(time);
 
 
-            OfflinePlayer player = Bukkit.getOfflinePlayer(String.valueOf(targetName));
+            OfflinePlayer player = Bukkit.getOfflinePlayer(adapter.getArgs(0));
 
             String finalTime = time;
             long finalUntil = until;
