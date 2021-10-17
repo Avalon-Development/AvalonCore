@@ -8,7 +8,6 @@ import net.avalondevs.avaloncore.Commands.players.MsgCommand;
 import net.avalondevs.avaloncore.Commands.players.ReplyCommand;
 import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
 import net.avalondevs.avaloncore.Listeners.PlayerListeners;
-import net.avalondevs.avaloncore.Listeners.chatListener;
 import net.avalondevs.avaloncore.MySQL.MySQL;
 import net.avalondevs.avaloncore.MySQL.PlayerData;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
@@ -77,6 +76,7 @@ public final class Main extends JavaPlugin {
             staffSQL.createTable();
             playerData.createTable();
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
+            //loadCommands();
         }
 
         loadModuleCommands();
@@ -114,9 +114,10 @@ public final class Main extends JavaPlugin {
 
         framework.registerCommands(new HistoryCommand());
 
-
+        /*
         framework.registerCommands(new MuteCommand());
         framework.registerCommands(new TempmuteCommand());
+        */
         framework.registerCommands(new KickCommand());
         framework.registerCommands(new SocialSpyCommand());
         framework.registerCommands(new VanishCommand());

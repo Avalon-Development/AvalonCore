@@ -14,17 +14,36 @@ import static net.avalondevs.avaloncore.Utils.Utils.chat;
 public class MuteCommand {
 
     @Command(name = "mute", permission = "core.staff.mute")
-    public void onCommand(CommandAdapter adapter) {
+    public void onPermCommand(CommandAdapter adapter) {
+
         UUID banner = adapter.isPlayer() ? adapter.getPlayer().getUniqueId() : Punishments.consoleUUID;
-        OfflinePlayer target = Bukkit.getPlayer(adapter.getArgs(0));
-        String reason = adapter.range(1);
 
+        if (adapter.length() < 1)
+            adapter.fail();
+        else {
 
-        if(adapter.length() < 1) {
-            adapter.sendMessage(chat(Utils.PREFIX + " invalid args!"));
-        } else {
-            Punishments.mute(target, banner, reason);
-            adapter.sendMessage("command.mute.execute", target, reason);
+            String targetName = adapter.getArgs(0);
+
+            OfflinePlayer player = Bukkit.getOfflinePlayer(targetName);
+
+            if (adapter.optionalArg(1, (ignored) -> {
+
+                String reason = adapter.range(1);
+
+                Punishments.mute(player, banner, reason);
+
+                adapter.sendMessage("command.mute.execute", targetName, reason);
+
+            })) {
+
+                Punishments.mute(player, banner);
+
+                adapter.sendMessage("command.mute.execute", targetName, Punishments.defaultReason);
+
+            }
+
         }
+
     }
+
 }

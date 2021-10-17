@@ -9,7 +9,7 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
-public class TempmuteCommand {
+public class TempMuteCommand {
 
     @Command(name = "tempmute", permission = "core.staff.tempmute")
     public void onCommand(CommandAdapter adapter) {
