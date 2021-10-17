@@ -14,3 +14,5 @@ vouchers:
       - "&7Right-click with"
       - "&7this in your hand"
       - "&7to claim the %rank% Rank!"
+chat:
+  format: "%prefix% %player% &8| &f%message%"
