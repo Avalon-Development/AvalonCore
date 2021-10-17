@@ -9,8 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
-import static net.avalondevs.avaloncore.Utils.Utils.chat;
+import static net.avalondevs.avaloncore.Utils.Utils.*;
 
 public class MsgCommand  {
 
@@ -24,8 +23,8 @@ public class MsgCommand  {
             String message = adapter.range(1);
             assert target != null;
             if(target.isOnline()) {
-                target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
-                player.sendMessage(chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
+                target.sendMessage(chat("&fFrom " + "&b" + getPrefix(player.getUniqueId()) + player.getName() + "&8: " + "&f" + message));
+                player.sendMessage(chat("&fTo " + "&b" + getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
                 KnownSender.put(target, player);
                 KnownSender.put(player, target);
             } else {

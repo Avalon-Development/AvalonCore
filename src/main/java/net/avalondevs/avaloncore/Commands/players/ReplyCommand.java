@@ -4,8 +4,7 @@ import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.entity.Player;
 
-import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
-import static net.avalondevs.avaloncore.Utils.Utils.chat;
+import static net.avalondevs.avaloncore.Utils.Utils.*;
 
 public class ReplyCommand {
 
@@ -18,8 +17,8 @@ public class ReplyCommand {
             String message = adapter.range(0);
             if(target != null) {
                 if(target.isOnline()) {
-                    target.sendMessage(chat("&fFrom " + "&b" + player.getName() + "&8: " + "&f" + message));
-                    player.sendMessage(chat("&fTo " + "&b" + target.getName() + "&8: " + "&f" + message));
+                    target.sendMessage(chat("&fFrom " + "&b" + getPrefix(player.getUniqueId()) + player.getName() + "&8: " + "&f" + message));
+                    player.sendMessage(chat("&fTo " + "&b" + getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
                 } else {
                     player.sendMessage(chat("&cPlayer not found!"));
                 }
