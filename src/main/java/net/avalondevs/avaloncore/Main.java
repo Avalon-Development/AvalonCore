@@ -120,11 +120,8 @@ public final class Main extends JavaPlugin {
         */
         framework.registerCommands(new KickCommand());
         framework.registerCommands(new SocialSpyCommand());
-    }
-    void loadCommands() {
-        new TagsCommand();
-        new VanishCommand();
-        new FreezeeCommand();
+        framework.registerCommands(new VanishCommand());
+        framework.registerCommands(new FreezeeCommand());
     }
 
     public static Main getPlugin() {
