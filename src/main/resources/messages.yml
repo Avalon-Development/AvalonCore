@@ -5,6 +5,9 @@ error:
     not-found: "&cThere is no such player"
     not-banned: "&cThat player is not banned"
 command:
+  eat:
+    help: '&c/<command> [player]'
+    execute: "&7{0} &7has been fed"
   tempban:
     help:
       - "&c/<command> <player> <time> [reason]"
