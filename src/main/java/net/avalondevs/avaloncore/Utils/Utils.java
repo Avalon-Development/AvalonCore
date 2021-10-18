@@ -30,9 +30,4 @@ public class Utils {
         gui.setItem(13, book);
         player.openInventory(gui);
     }
-
-    public static String getPrefix(UUID uuid) {
-        String prefix = LuckPermsProvider.get().getGroupManager().getGroup(LuckPermsProvider.get().getUserManager().getUser(uuid).getPrimaryGroup()).getCachedData().getMetaData().getPrefix();
-        return prefix;
-    }
 }
