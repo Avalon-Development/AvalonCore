@@ -133,4 +133,9 @@ public class LuckPermsAdapter {
 
     }
 
+    public String getPrefix(UUID uuid) {
+        String prefix = LuckPermsProvider.get().getGroupManager().getGroup(LuckPermsProvider.get().getUserManager().getUser(uuid).getPrimaryGroup()).getCachedData().getMetaData().getPrefix();
+        return prefix;
+    }
+
 }

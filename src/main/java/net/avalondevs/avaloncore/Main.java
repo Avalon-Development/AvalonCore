@@ -2,10 +2,13 @@ package net.avalondevs.avaloncore;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.avalondevs.avaloncore.Commands.Admin.EatCommand;
+import net.avalondevs.avaloncore.Commands.Admin.HealCommand;
+import net.avalondevs.avaloncore.Commands.Admin.SetspawnCommand;
+import net.avalondevs.avaloncore.Commands.Kits.Kits;
+import net.avalondevs.avaloncore.Commands.Kits.Resetcooldowns;
 import net.avalondevs.avaloncore.Commands.Staff.*;
-import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
-import net.avalondevs.avaloncore.Commands.players.MsgCommand;
-import net.avalondevs.avaloncore.Commands.players.ReplyCommand;
+import net.avalondevs.avaloncore.Commands.players.*;
 import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
 import net.avalondevs.avaloncore.Listeners.PlayerListeners;
 import net.avalondevs.avaloncore.MySQL.MySQL;
@@ -32,7 +35,7 @@ public final class Main extends JavaPlugin {
     public static StaffSQL staffSQL;
     public static PlayerData playerData;
     CommandFramework framework = new CommandFramework(this); // initialize a new framework
-
+    I18N i18n = new I18N();
 
     @Getter
     @Setter
@@ -57,7 +60,7 @@ public final class Main extends JavaPlugin {
 
         ConfigUtil.updateConfig(this, "messages.yml");
 
-        I18N i18n = new I18N();
+
 
         // Init MySQL Database
         SQL = new MySQL();
@@ -76,7 +79,6 @@ public final class Main extends JavaPlugin {
             staffSQL.createTable();
             playerData.createTable();
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
-            //loadCommands();
         }
 
         loadModuleCommands();
@@ -105,24 +107,28 @@ public final class Main extends JavaPlugin {
         framework.registerCommands(new ReplyCommand());
         framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
         framework.registerCommands(new GamemodeCommand()); // load the GamemodeCommand
-
+        framework.registerCommands(new Spawn());
+        framework.registerCommands(new TpaCommand());
+        framework.registerCommands(new TpAccept());
+        framework.registerCommands(new TpaDenyCommand());
+        framework.registerCommands(new Kits());
+        framework.registerCommands(new Resetcooldowns());
         // moderation
 
         framework.registerCommands(new TempBanCommand()); // load the tempban command
-
         framework.registerCommands(new UnbanCommand()); // load the unban command
-
         framework.registerCommands(new HistoryCommand());
 
-        /*
+        framework.registerCommands(new SetspawnCommand());
         framework.registerCommands(new MuteCommand());
-        framework.registerCommands(new TempmuteCommand());
-        */
+        framework.registerCommands(new TempMuteCommand());
         framework.registerCommands(new KickCommand());
         framework.registerCommands(new SocialSpyCommand());
         framework.registerCommands(new VanishCommand());
         framework.registerCommands(new FreezeeCommand());
         framework.registerCommands(new UnFreeze());
+        framework.registerCommands(new HealCommand());
+        framework.registerCommands(new EatCommand());
     }
 
     public static Main getPlugin() {

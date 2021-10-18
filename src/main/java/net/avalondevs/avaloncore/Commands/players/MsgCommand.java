@@ -1,6 +1,7 @@
 package net.avalondevs.avaloncore.Commands.players;
 
 import net.avalondevs.avaloncore.Commands.Staff.SocialSpyCommand;
+import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
 import net.avalondevs.avaloncore.Utils.Utils;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
@@ -24,14 +25,14 @@ public class MsgCommand  {
             String message = adapter.range(1);
             assert target != null;
             if(target.isOnline()) {
-                target.sendMessage(chat("&fFrom " + "&b" + getPrefix(player.getUniqueId()) + player.getName() + "&8: " + "&f" + message));
-                player.sendMessage(chat("&fTo " + "&b" + getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
+                target.sendMessage(chat("&fFrom " + "&b" + LuckPermsAdapter.getPrefix(player.getUniqueId()) + player.getName() + "&8: " + "&f" + message));
+                player.sendMessage(chat("&fTo " + "&b" + LuckPermsAdapter.getPrefix(target.getUniqueId()) + target.getName() + "&8: " + "&f" + message));
                 KnownSender.put(target, player);
                 KnownSender.put(player, target);
                 for(Player staff : Bukkit.getOnlinePlayers()) {
                     if(staff.hasPermission("core.staff.socialspy")) {
                         if(SocialSpyCommand.sp.contains(staff)) {
-                            staff.sendMessage(chat(PREFIX + "&6[SOCIAL SPY] &f" + getPrefix(player.getUniqueId()) + player.getName() +"&6> &f" + getPrefix(target.getUniqueId()) + target.getName() + "&9" + message));
+                            staff.sendMessage(chat(PREFIX + "&6[SOCIAL SPY] &f" + LuckPermsAdapter.getPrefix(player.getUniqueId()) + player.getName() +"&6> &f" + LuckPermsAdapter.getPrefix(target.getUniqueId()) + target.getName() + "&9" + message));
                         }
                     }
                 }
