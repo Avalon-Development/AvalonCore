@@ -4,11 +4,12 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.bukkit.plugin.Plugin;
 
-import java.io.*;
-import java.lang.reflect.Method;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.logging.Level;
 
 /**
@@ -29,7 +30,7 @@ public class ResourceUtil {
 
         int lastSlash = pathName.lastIndexOf('/');
 
-        if(lastSlash <= 0)
+        if (lastSlash <= 0)
             return pathName;
 
         return pathName.substring(lastSlash);
@@ -43,7 +44,7 @@ public class ResourceUtil {
         String name = getFileName(uri.getFile());
 
         File file = new File(parent.getDataFolder(), LIB_FOLDER + "/" + name);
-        if(file.exists()) {
+        if (file.exists()) {
             loadLib(file);
             return;
         }

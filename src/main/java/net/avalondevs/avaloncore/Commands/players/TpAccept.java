@@ -22,9 +22,9 @@ public class TpAccept {
         if (req.containsValue(player.getUniqueId())) {
             player.sendMessage(ChatColor.GOLD + "TPA request accepted!");
             for (Map.Entry<UUID, UUID> entry : req.entrySet()) {
-                if (((UUID)entry.getValue()).equals(player.getUniqueId())) {
+                if (entry.getValue().equals(player.getUniqueId())) {
                     Player tpRequester = Bukkit.getPlayer(entry.getKey());
-                    tpRequester.teleport((Entity)player);
+                    tpRequester.teleport(player);
                     req.remove(entry.getKey());
                     break;
                 }

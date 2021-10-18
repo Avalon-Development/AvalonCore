@@ -5,17 +5,12 @@ import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import static net.avalondevs.avaloncore.Main.plugin;
-import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
-import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
 public class TpaCommand {
 
@@ -24,7 +19,7 @@ public class TpaCommand {
     @Command(name = "tpa")
     public void onCommand(CommandAdapter adapter) {
         Player player = adapter.getPlayer();
-        if(adapter.length() < 1) {
+        if (adapter.length() < 1) {
             adapter.fail();
         }
         if (!Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(adapter.getArgs(0)))) {

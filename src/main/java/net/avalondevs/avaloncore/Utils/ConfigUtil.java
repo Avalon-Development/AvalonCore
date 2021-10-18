@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -12,7 +11,6 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,6 +19,7 @@ public class ConfigUtil {
 
     /**
      * compares 2 configs with each other
+     *
      * @param config1
      * @param config2
      * @return a set of all the non-existent keys in {@code config2}
@@ -45,7 +44,7 @@ public class ConfigUtil {
         Bukkit.getLogger().info("Starting YAML update on " + oldConfig.getName());
         Bukkit.getLogger().info("Found " + diff.size() + " keys to update");
 
-        if(diff.size() > 0) {
+        if (diff.size() > 0) {
 
             for (String string : compare(newConfig, oldConfig)) {
 
@@ -88,7 +87,7 @@ public class ConfigUtil {
     @SneakyThrows
     public void saveConfig(Configuration configuration, File file) {
 
-        ((FileConfiguration)configuration).save(file);
+        ((FileConfiguration) configuration).save(file);
 
     }
 

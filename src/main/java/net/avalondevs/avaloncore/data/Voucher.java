@@ -1,11 +1,8 @@
 package net.avalondevs.avaloncore.data;
 
-import lombok.Data;
-import lombok.Getter;
 import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.Utils.Color;
 import net.avalondevs.avaloncore.Utils.DataParser;
-import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
 import net.luckperms.api.model.group.Group;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,7 +30,7 @@ public record Voucher(Group group) {
     public String buildDisplayName() {
 
         String name = group.getDisplayName();
-        if(name == null)
+        if (name == null)
             name = group.getFriendlyName();
 
         return Color.fmt(TEMPLATE_NAME.replace("%rank%", name));
@@ -45,7 +42,7 @@ public record Voucher(Group group) {
         ItemMeta metadata = VOUCHER_TEMPLATE.getItemMeta();
 
         String name = group.getDisplayName();
-        if(name == null)
+        if (name == null)
             name = group.getFriendlyName();
 
         String finalName = name;

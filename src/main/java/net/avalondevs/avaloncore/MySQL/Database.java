@@ -1,6 +1,8 @@
 package net.avalondevs.avaloncore.MySQL;
 
+import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.plugin.Plugin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +17,20 @@ public abstract class Database {
     @Setter
     private Connection connection;
 
+    @Getter
+    @Setter
+    public static Plugin parent;
+
     public boolean isConnected() {
         return (connection != null);
     }
+
+    /**
+     * Transform platform related syntax like AUTOINCREMENT to platform syntax
+     * @param query the query to transform
+     * @return the transformed query
+     */
+    public abstract String translate(String query);
 
     /**
      * Method that dynamically prepares a {@link java.sql.PreparedStatement}
@@ -29,7 +42,7 @@ public abstract class Database {
      */
     public PreparedStatement prepareStatement(String query, Object... args) throws SQLException {
 
-        PreparedStatement statement = connection.prepareStatement(query);
+        PreparedStatement statement = connection.prepareStatement(translate(query));
 
         int index = 1;
 

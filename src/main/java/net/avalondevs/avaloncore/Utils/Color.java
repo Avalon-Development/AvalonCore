@@ -1,7 +1,6 @@
 package net.avalondevs.avaloncore.Utils;
 
 import lombok.experimental.UtilityClass;
-import lombok.val;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 
@@ -15,11 +14,11 @@ public class Color {
 
     public String fmt(String input) {
 
-        if(Bukkit.getVersion().contains("1.16")) {
+        if (Bukkit.getVersion().contains("1.16")) {
 
             Matcher matcher = pattern.matcher(input);
 
-            while(matcher.find()) {
+            while (matcher.find()) {
 
                 String color = input.substring(matcher.start(), matcher.end());
                 input = input.replace(color, ChatColor.of(color) + "");

@@ -1,7 +1,6 @@
 package net.avalondevs.avaloncore.MySQL;
 
 import net.avalondevs.avaloncore.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -19,6 +18,7 @@ import static net.avalondevs.avaloncore.Main.SQL;
 public class StaffSQL {
 
     private final Main plugin;
+
     public StaffSQL(Main plugin) {
         this.plugin = plugin;
     }
@@ -26,7 +26,7 @@ public class StaffSQL {
     public void createTable() {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS staffs (INT ID NOT NULL AUTO_INCREMENT,NAME VARCHAR(100),UUID VARCHAR(100),IP VARCHAR(100),LASTSEEN VARCHAR(100),PLAYTIME INT(100),VANISHED BOOLEAN,PRIMARY KEY (ID))");
+            ps = SQL.prepareStatement("CREATE TABLE IF NOT EXISTS staffs (ID INTEGER PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR(100),UUID VARCHAR(100),IP VARCHAR(100),LASTSEEN VARCHAR(100),PLAYTIME INT(100),VANISHED BOOLEAN)");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class StaffSQL {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             if (!playerExist(uuid)) {
-                PreparedStatement ps2 = SQL.getConnection().prepareStatement("INSERT IGNORE INTO staffs (NAME,UUID,LASTSEEN,PLAYTIME,DEATH,WHITELISTED) VALUES (?,?,?,?,?,?)");
+                PreparedStatement ps2 = SQL.prepareStatement("INSERT IGNORE INTO staffs (NAME,UUID,LASTSEEN,PLAYTIME,DEATH,WHITELISTED) VALUES (?,?,?,?,?,?)");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.setString(3, format.format(now));
@@ -54,7 +54,7 @@ public class StaffSQL {
 
     public boolean playerExist(UUID uuid) {
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM staffs WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM staffs WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
@@ -71,7 +71,7 @@ public class StaffSQL {
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("UPDATE staffs SET LASTSEEN=?, IP=? WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("UPDATE staffs SET LASTSEEN=?, IP=? WHERE UUID=?");
             ps.setString(1, format.format(now));
             ps.setString(2, Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress());
             ps.setString(3, uuid.toString());
@@ -85,7 +85,7 @@ public class StaffSQL {
         String s = "NaN";
 
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM staffs WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM staffs WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
@@ -101,13 +101,13 @@ public class StaffSQL {
         long l = 0;
 
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM staffs WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM staffs WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 l = results.getLong("PLAYTIME");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return l;
@@ -115,7 +115,7 @@ public class StaffSQL {
 
     public void TotalTimePlayedSetter(UUID uuid, long playtime) {
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("UPDATE staffs SET PLAYTIME=? WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("UPDATE staffs SET PLAYTIME=? WHERE UUID=?");
             ps.setLong(1, playtime);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -145,26 +145,26 @@ public class StaffSQL {
     public Boolean isVanishedGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM staffs WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM staffs WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
     }
 
-   public void isVanishedSetter(UUID uuid, boolean b) {
+    public void isVanishedSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE staffs SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE staffs SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-   }
+    }
 }

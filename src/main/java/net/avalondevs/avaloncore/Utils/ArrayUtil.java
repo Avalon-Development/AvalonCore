@@ -4,14 +4,13 @@ import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @UtilityClass
 public class ArrayUtil {
 
     public <T> T getOrDefault(T[] array, int index, T defaultElement) {
 
-        if(index < 0 || index >= array.length)
+        if (index < 0 || index >= array.length)
             return defaultElement;
 
         return array[index];
@@ -24,10 +23,10 @@ public class ArrayUtil {
 
         int index = list.indexOf(element);
 
-        if(index == -1)
+        if (index == -1)
             return null;
 
-        if(index + 1 >= list.size())
+        if (index + 1 >= list.size())
             return null;
 
         return list.get(index + 1);

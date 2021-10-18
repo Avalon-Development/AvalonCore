@@ -3,8 +3,6 @@ package net.avalondevs.avaloncore.Utils.gui;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -19,12 +17,14 @@ public abstract class Gui {
 
     /**
      * This function needs to return the generated inventory
+     *
      * @return the inventory
      */
     public abstract Inventory gen();
 
     /**
      * This will pass on the events only for this gui
+     *
      * @param event the event
      */
     public abstract void onInvClick(InventoryClickEvent event);

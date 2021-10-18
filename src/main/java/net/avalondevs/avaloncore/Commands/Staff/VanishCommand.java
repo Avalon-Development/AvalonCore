@@ -19,19 +19,19 @@ public class VanishCommand {
     public void onCommand(CommandAdapter adapter) {
         Player player = adapter.getPlayer();
 
-        if(staffSQL.isVanishedGetter(player.getUniqueId())) {
+        if (staffSQL.isVanishedGetter(player.getUniqueId())) {
             player.sendMessage(chat(PREFIX + " &7Disabled vanish"));
-            for(Player all : Bukkit.getOnlinePlayers()) {
-                all.showPlayer(plugin,player);
+            for (Player all : Bukkit.getOnlinePlayers()) {
+                all.showPlayer(plugin, player);
             }
         } else {
             staffSQL.isVanishedSetter(player.getUniqueId(), true);
             player.sendMessage(chat(PREFIX + " &7Enabled vanish"));
-            for(Player all : Bukkit.getOnlinePlayers()) {
-                if(all.hasPermission("core.staff.*")) {
-                    all.showPlayer(plugin,player);
+            for (Player all : Bukkit.getOnlinePlayers()) {
+                if (all.hasPermission("core.staff.*")) {
+                    all.showPlayer(plugin, player);
                 } else {
-                    all.hidePlayer(plugin,player);
+                    all.hidePlayer(plugin, player);
                 }
             }
         }

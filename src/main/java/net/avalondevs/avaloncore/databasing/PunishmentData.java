@@ -3,7 +3,7 @@ package net.avalondevs.avaloncore.databasing;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import net.avalondevs.avaloncore.Main;
-import net.avalondevs.avaloncore.MySQL.providers.MySQL;
+import net.avalondevs.avaloncore.MySQL.Database;
 import net.avalondevs.avaloncore.punishments.*;
 
 import java.sql.PreparedStatement;
@@ -17,7 +17,6 @@ import java.util.UUID;
 @UtilityClass
 public class PunishmentData {
 
-    public MySQL database;
     public final String schemaActive =
             "CREATE TABLE IF NOT EXISTS punishments_active(id Varchar(33)," +
                     " type ENUM('Kick', 'Ban', 'Mute')," +
@@ -34,22 +33,21 @@ public class PunishmentData {
                     " source Varchar(33)," +
                     " until BIGINT," +
                     " reason Varchar(255)";
-
     public final boolean ENABLE_ARCHIVE = false; // for big servers, this might be viable due to high archive read/write overhead
-
+    public Database database;
     public PreparedStatement cachedActiveWriteStatement;
     public PreparedStatement cachedArchiveWriteStatement;
 
     @SneakyThrows
     public void init() {
 
-        database = Main.getSQL();
+        database = Main.getDatabase();
 
-        if(!database.isConnected()) {
+        if (!database.isConnected()) {
 
             Main.getInstance().getLogger().severe("Cannot severe punishment remote database");
 
-        }else { // database is connected, read data
+        } else { // database is connected, read data
 
             database.executeStatement(schemaArchive);
             database.executeStatement(schemaActive);
@@ -72,8 +70,8 @@ public class PunishmentData {
 
     public void save() {
 
-        if(database.isConnected())
-        writePunishmentEntries(ENABLE_ARCHIVE);
+        if (database.isConnected())
+            writePunishmentEntries(ENABLE_ARCHIVE);
 
     }
 
@@ -88,7 +86,7 @@ public class PunishmentData {
 
         String type = set.getString("type");
 
-        switch(type) {
+        switch (type) {
 
             case "Kick" -> {
                 return new KickEntry(id, timestamp, user, source, until, reason);
@@ -114,7 +112,7 @@ public class PunishmentData {
             writePunishmentEntry(activeEntry, false);
         }
 
-        if(archive) {
+        if (archive) {
 
             for (PunishmentEntry archivedEntry : Punishments.archivedEntries) {
                 writePunishmentEntry(archivedEntry, true);
@@ -151,7 +149,7 @@ public class PunishmentData {
 
         ResultSet set = database.executeQuery("SELECT * FROM punishments_active");
 
-        while(set.next()) {
+        while (set.next()) {
 
             PunishmentEntry entry = readEntry(set);
 
@@ -160,11 +158,11 @@ public class PunishmentData {
 
         }
 
-        if(archive) {
+        if (archive) {
 
             set = database.executeQuery("SELECT * FROM punishments_archive");
 
-            while(set.next()) {
+            while (set.next()) {
 
                 PunishmentEntry entry = readEntry(set);
 

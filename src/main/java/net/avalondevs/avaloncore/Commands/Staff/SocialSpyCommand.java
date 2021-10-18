@@ -18,7 +18,7 @@ public class SocialSpyCommand {
     public void onCommand(CommandAdapter adapter) {
         Player player = adapter.getPlayer();
 
-        if(sp.contains(player)) {
+        if (sp.contains(player)) {
             sp.remove(player);
             player.sendMessage(chat(PREFIX + "&7Disabled socialspy"));
         } else {

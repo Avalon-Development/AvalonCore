@@ -1,16 +1,11 @@
 package net.avalondevs.avaloncore.Commands.Staff;
 
-import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import static net.avalondevs.avaloncore.Main.getPlugin;
 import static net.avalondevs.avaloncore.Main.playerData;
 import static net.avalondevs.avaloncore.Utils.Utils.PREFIX;
 import static net.avalondevs.avaloncore.Utils.Utils.chat;
@@ -22,11 +17,11 @@ public class FreezeeCommand {
         Player player = adapter.getPlayer();
         OfflinePlayer target = Bukkit.getPlayer(adapter.getArgs(0));
 
-        if(adapter.length() < 1) {
+        if (adapter.length() < 1) {
             adapter.fail();
         }
 
-        if(playerData.isFreezeGetter(target.getUniqueId())) {
+        if (playerData.isFreezeGetter(target.getUniqueId())) {
             player.sendMessage(chat(PREFIX + " &e&n " + target.getName() + "&7Is already frozen"));
         } else {
             playerData.isFreezeSetter(target.getUniqueId(), true);

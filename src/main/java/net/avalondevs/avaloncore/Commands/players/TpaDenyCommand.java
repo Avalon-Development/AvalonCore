@@ -16,7 +16,7 @@ public class TpaDenyCommand {
         Player player = adapter.getPlayer();
         if (TpaCommand.req.containsValue(player.getUniqueId())) {
             for (Map.Entry<UUID, UUID> entry : TpaCommand.req.entrySet()) {
-                if (((UUID)entry.getValue()).equals(player.getUniqueId())) {
+                if (entry.getValue().equals(player.getUniqueId())) {
                     TpaCommand.req.remove(entry.getKey());
                     Player originalSender = Bukkit.getPlayer(entry.getKey());
                     originalSender.sendMessage(ChatColor.GOLD + "Your TPA request was denied!");

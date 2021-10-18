@@ -1,6 +1,5 @@
 package net.avalondevs.avaloncore.Commands.Staff;
 
-import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import org.bukkit.Bukkit;
@@ -16,11 +15,11 @@ public class UnFreeze {
         Player player = adapter.getPlayer();
         OfflinePlayer target = Bukkit.getPlayer(adapter.getArgs(0));
 
-        if(adapter.length() < 1) {
+        if (adapter.length() < 1) {
             adapter.fail();
         }
 
-        if(playerData.isFreezeGetter(target.getUniqueId())) {
+        if (playerData.isFreezeGetter(target.getUniqueId())) {
             playerData.isFreezeSetter(target.getUniqueId(), false);
             adapter.sendMessage("&e&n" + target.getName() + " &7has been unfrozen");
         } else {

@@ -14,10 +14,10 @@ public class FileUtil {
 
     public File ensureFile(File file) throws IOException {
 
-        if(file.exists())
+        if (file.exists())
             return file;
 
-        if(!file.getParentFile().exists())
+        if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
 
         file.createNewFile();
@@ -46,7 +46,7 @@ public class FileUtil {
 
         String name = file.getName();
 
-        if(name.lastIndexOf('.') == 0 || name.lastIndexOf('.') < 0)
+        if (name.lastIndexOf('.') == 0 || name.lastIndexOf('.') < 0)
             return name;
 
         name = name.substring(0, name.lastIndexOf('.'));

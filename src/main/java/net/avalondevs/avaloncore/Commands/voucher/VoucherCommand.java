@@ -17,7 +17,6 @@ public class VoucherCommand {
         adapter.sendMessage("");
 
 
-
     }
 
     // TODO make error messages
@@ -28,7 +27,7 @@ public class VoucherCommand {
         adapter.requireArg(0, (name) -> {
 
             Group group = LuckPermsAdapter.getByName(name);
-            if(group == null) {
+            if (group == null) {
 
                 adapter.sendMessage("error.rank.not-found", name);
                 return;
@@ -51,7 +50,7 @@ public class VoucherCommand {
         adapter.requireArg(0, (rank) -> {
 
             Group group = LuckPermsAdapter.getByName(rank);
-            if(group == null) {
+            if (group == null) {
 
                 adapter.sendMessage("error.rank.not-found", rank);
                 return;

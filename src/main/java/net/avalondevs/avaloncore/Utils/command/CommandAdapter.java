@@ -166,12 +166,12 @@ public class CommandAdapter {
     /**
      * a require args function
      * supposed to be used like this:
-     *  <br>
+     * <br>
      * if(requireArg(index, (string) <br> {<br>
-     *    code when the required arg is present <br>
+     * code when the required arg is present <br>
      * }))<br>
      * {<br>
-     *   code when the required arg is not present<br>
+     * code when the required arg is not present<br>
      * }<br>
      *
      * @param index
@@ -180,7 +180,7 @@ public class CommandAdapter {
      */
     public boolean requireArg(int index, Consumer<String> runner) {
 
-        if(index < length()) {
+        if (index < length()) {
             if (runner != null)
                 runner.accept(getArgs(index));
             return false;
@@ -191,7 +191,7 @@ public class CommandAdapter {
 
     public boolean requireArg(int index, Consumer<String> runner, Consumer<Void> error) {
 
-        if(index < length()) {
+        if (index < length()) {
             if (runner != null)
                 runner.accept(getArgs(index));
             return false;

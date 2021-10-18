@@ -2,22 +2,24 @@ package net.avalondevs.avaloncore;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import net.avalondevs.avaloncore.Commands.Admin.EatCommand;
 import net.avalondevs.avaloncore.Commands.Admin.HealCommand;
 import net.avalondevs.avaloncore.Commands.Admin.SetspawnCommand;
 import net.avalondevs.avaloncore.Commands.Kits.Kits;
 import net.avalondevs.avaloncore.Commands.Kits.Resetcooldowns;
 import net.avalondevs.avaloncore.Commands.Staff.*;
+import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
 import net.avalondevs.avaloncore.Commands.players.*;
 import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
 import net.avalondevs.avaloncore.Listeners.PlayerListeners;
-import net.avalondevs.avaloncore.MySQL.MySQL;
+import net.avalondevs.avaloncore.MySQL.Database;
 import net.avalondevs.avaloncore.MySQL.PlayerData;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
 import net.avalondevs.avaloncore.MySQL.StaffSQL;
-import net.avalondevs.avaloncore.Utils.ConfigUtil;
-import net.avalondevs.avaloncore.Utils.I18N;
-import net.avalondevs.avaloncore.Utils.LuckPermsAdapter;
+import net.avalondevs.avaloncore.MySQL.providers.MySQL;
+import net.avalondevs.avaloncore.MySQL.providers.SQLite;
+import net.avalondevs.avaloncore.Utils.*;
 import net.avalondevs.avaloncore.Utils.command.CommandFramework;
 import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
@@ -27,28 +29,48 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 public final class Main extends JavaPlugin {
     public static Main plugin;
-    public static MySQL SQL;
+    public static Database SQL;
     public static SQLGetter data;
     public static StaffSQL staffSQL;
     public static PlayerData playerData;
-    CommandFramework framework = new CommandFramework(this); // initialize a new framework
-    I18N i18n = new I18N();
-
     @Getter
     @Setter
     public static Main instance;
+    @Getter
+    static Database database;
+    CommandFramework framework = new CommandFramework(this); // initialize a new framework
 
+    public static Main getPlugin() {
+        return plugin;
+    }
+
+    @SneakyThrows
     @Override
     public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage("===============");
-        Bukkit.getConsoleSender().sendMessage("§b* Name: &f" + getDescription().getName());
-        Bukkit.getConsoleSender().sendMessage("===============");
 
         setInstance(this);
         plugin = this;
+
+        Logger.init();
+
+        Bukkit.getConsoleSender().sendMessage("===============");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "* Name: &f" + getDescription().getName());
+        Bukkit.getConsoleSender().sendMessage("===============");
+
+        Logger.info(ChatColor.AQUA + "Loading libraries ...");
+
+        ResourceUtil.parent = this;
+        ResourceUtil.init();
+
+        for (String string : getConfig().getStringList("dependencies")) {
+
+            ResourceUtil.downloadLib(string);
+
+        }
 
         LuckPermsAdapter.init();
 
@@ -60,28 +82,60 @@ public final class Main extends JavaPlugin {
 
         ConfigUtil.updateConfig(this, "messages.yml");
 
-
+        I18N i18n = new I18N();
 
         // Init MySQL Database
-        SQL = new MySQL();
+
+        String option = getConfig().getString("database");
+
+        Database.setParent(this);
+        Database database;
+
+        Logger.info("Using " + option + " database");
+
+        if (Objects.equals(option, "mysql")) {
+            database = new MySQL();
+        } else {
+            database = new SQLite();
+        }
+
+        database.connect();
+
+        if (!database.isConnected()) {
+
+            if(Objects.equals(option, "mysql")) { // fallback: sqlite
+
+                database = new SQLite();
+
+                Logger.warn("Could not connect to mysql, fallback to local database. Changes wont be synced");
+
+                database.connect();
+
+            }
+
+            if(!database.isConnected())
+                Logger.error("Could not establish any valid database connection");
+
+        }
+
+        SQL = database; // DarkNet 10/18/2021: TODO please change over from primitive MySQL to generic Database
+
         data = new SQLGetter(this);
         staffSQL = new StaffSQL(this);
         playerData = new PlayerData(this);
 
-        try {
-            SQL.connect();
-        } catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MYSQL DATABASE FAILED TO CONNECT!!!");
-        }
 
-        if (SQL.isConnected()) {
+
+        if (database.isConnected()) {
             data.createTable();
             staffSQL.createTable();
             playerData.createTable();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MYSQL DATABASE CONNECTED SUCCESSFULLY");
+
+            CommandRegistry.registerCommands(framework);
+
         }
 
-        loadModuleCommands();
+        CommandRegistry.registerModuleCommands(framework);
 
         Voucher.cache();
         VoucherManager.instance.cache();
@@ -93,45 +147,13 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        if(database != null)
+        database.disconnect();
+
         Bukkit.getConsoleSender().sendMessage("===============");
-        Bukkit.getConsoleSender().sendMessage("§cPlugin disabled");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Plugin disabled");
         Bukkit.getConsoleSender().sendMessage("===============");
     }
 
-
-    /**
-     * This method will load the commands that don't depend on databasing to be enabled
-     */
-    void loadModuleCommands() {
-        framework.registerCommands(new MsgCommand());
-        framework.registerCommands(new ReplyCommand());
-        framework.registerCommands(new VoucherCommand()); // load VoucherCommand into the framework
-        framework.registerCommands(new GamemodeCommand()); // load the GamemodeCommand
-        framework.registerCommands(new Spawn());
-        framework.registerCommands(new TpaCommand());
-        framework.registerCommands(new TpAccept());
-        framework.registerCommands(new TpaDenyCommand());
-        framework.registerCommands(new Kits());
-        framework.registerCommands(new Resetcooldowns());
-        // moderation
-
-        framework.registerCommands(new TempBanCommand()); // load the tempban command
-        framework.registerCommands(new UnbanCommand()); // load the unban command
-        framework.registerCommands(new HistoryCommand());
-
-        framework.registerCommands(new SetspawnCommand());
-        framework.registerCommands(new MuteCommand());
-        framework.registerCommands(new TempMuteCommand());
-        framework.registerCommands(new KickCommand());
-        framework.registerCommands(new SocialSpyCommand());
-        framework.registerCommands(new VanishCommand());
-        framework.registerCommands(new FreezeeCommand());
-        framework.registerCommands(new UnFreeze());
-        framework.registerCommands(new HealCommand());
-        framework.registerCommands(new EatCommand());
-    }
-
-    public static Main getPlugin() {
-        return plugin;
-    }
 }

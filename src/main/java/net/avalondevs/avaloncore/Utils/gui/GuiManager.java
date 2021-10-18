@@ -17,7 +17,8 @@ public class GuiManager implements Listener {
 
     /**
      * Open a gui
-     * @param gui the gui to open
+     *
+     * @param gui    the gui to open
      * @param player the player to display it to
      */
     public static void openGui(Gui gui, Player player) {
@@ -36,6 +37,7 @@ public class GuiManager implements Listener {
 
     /**
      * Close a gui (only use if gui needs to be force closed)
+     *
      * @param gui gui to force close
      */
     public static void closeGui(Gui gui) {
@@ -49,7 +51,7 @@ public class GuiManager implements Listener {
     @EventHandler
     public void onInvClose(InventoryCloseEvent event) {
 
-        if(openGuis.containsKey(event.getPlayer().getUniqueId())) {
+        if (openGuis.containsKey(event.getPlayer().getUniqueId())) {
 
             closeGui(openGuis.get(event.getPlayer().getUniqueId()));
 
@@ -60,7 +62,7 @@ public class GuiManager implements Listener {
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
 
-        if(openGuis.containsKey(event.getWhoClicked().getUniqueId())) {
+        if (openGuis.containsKey(event.getWhoClicked().getUniqueId())) {
 
             Gui gui = openGuis.get(event.getWhoClicked().getUniqueId());
 

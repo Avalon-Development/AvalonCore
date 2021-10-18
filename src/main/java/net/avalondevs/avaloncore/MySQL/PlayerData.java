@@ -1,7 +1,6 @@
 package net.avalondevs.avaloncore.MySQL;
 
 import net.avalondevs.avaloncore.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -19,6 +18,7 @@ import static net.avalondevs.avaloncore.Main.SQL;
 public class PlayerData {
 
     private final Main plugin;
+
     public PlayerData(Main plugin) {
         this.plugin = plugin;
     }
@@ -26,7 +26,7 @@ public class PlayerData {
     public void createTable() {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS players (INT ID NOT NULL AUTO_INCREMENT,NAME VARCHAR(100),UUID VARCHAR(100),IP VARCHAR(100),LASTSEEN VARCHAR(100),PLAYTIME INT(100),FREEZED BOOLEAN,BANNED BOOLEAN,MUTED BOOLEAN,IPBANNED BOOLEAN,FREEZED BOOLEAN,PRIMARY KEY (ID))");
+            ps = SQL.prepareStatement("CREATE TABLE IF NOT EXISTS players (ID INTEGER PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR(100),UUID VARCHAR(100),IP VARCHAR(100),LASTSEEN VARCHAR(100),PLAYTIME INT(100),BANNED BOOLEAN,MUTED BOOLEAN,IPBANNED BOOLEAN,FROZEN BOOLEAN)");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class PlayerData {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             if (!playerExist(uuid)) {
-                PreparedStatement ps2 = SQL.getConnection().prepareStatement("INSERT IGNORE INTO players (NAME,UUID,LASTSEEN,PLAYTIME,DEATH,WHITELISTED) VALUES (?,?,?,?,?,?)");
+                PreparedStatement ps2 = SQL.prepareStatement("INSERT IGNORE INTO players (NAME,UUID,LASTSEEN,PLAYTIME,DEATH,WHITELISTED) VALUES (?,?,?,?,?,?)");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.setString(3, format.format(now));
@@ -54,7 +54,7 @@ public class PlayerData {
 
     public boolean playerExist(UUID uuid) {
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
@@ -71,7 +71,7 @@ public class PlayerData {
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("UPDATE players SET LASTSEEN=?, IP=? WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("UPDATE players SET LASTSEEN=?, IP=? WHERE UUID=?");
             ps.setString(1, format.format(now));
             ps.setString(2, Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress());
             ps.setString(3, uuid.toString());
@@ -85,7 +85,7 @@ public class PlayerData {
         String s = "NaN";
 
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
@@ -101,13 +101,13 @@ public class PlayerData {
         long l = 0;
 
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 l = results.getLong("PLAYTIME");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return l;
@@ -115,7 +115,7 @@ public class PlayerData {
 
     public void TotalTimePlayedSetter(UUID uuid, long playtime) {
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("UPDATE players SET PLAYTIME=? WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("UPDATE players SET PLAYTIME=? WHERE UUID=?");
             ps.setLong(1, playtime);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
@@ -145,13 +145,13 @@ public class PlayerData {
     public Boolean isFreezeGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
@@ -160,9 +160,9 @@ public class PlayerData {
     public void isFreezeSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -171,13 +171,13 @@ public class PlayerData {
     public Boolean isBannedGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
@@ -186,9 +186,9 @@ public class PlayerData {
     public void isBannedSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,13 +198,13 @@ public class PlayerData {
     public Boolean isMutedGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
@@ -213,9 +213,9 @@ public class PlayerData {
     public void isMutedSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -224,13 +224,13 @@ public class PlayerData {
     public Boolean isIpBannedGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
@@ -239,9 +239,9 @@ public class PlayerData {
     public void isIpBannedSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -250,13 +250,13 @@ public class PlayerData {
     public Boolean isIpMutedGetter(UUID uuid) {
         boolean b = false;
         try {
-            PreparedStatement ps = SQL.getConnection().prepareStatement("SELECT * FROM players WHERE UUID=?");
+            PreparedStatement ps = SQL.prepareStatement("SELECT * FROM players WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             if (results.next()) {
                 b = results.getBoolean("VANISHED");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return b;
@@ -265,9 +265,9 @@ public class PlayerData {
     public void isIpMutedSetter(UUID uuid, boolean b) {
         PreparedStatement ps;
         try {
-            ps = SQL.getConnection().prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
+            ps = SQL.prepareStatement("UPDATE players SET VANISHED=? WHERE UUID=?");
             ps.setString(1, uuid.toString());
-            ps.setBoolean(2,b);
+            ps.setBoolean(2, b);
         } catch (SQLException e) {
             e.printStackTrace();
         }

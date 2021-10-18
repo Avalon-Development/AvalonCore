@@ -162,7 +162,7 @@ public class Punishments {
     /**
      * Ban a UUID from the server
      *
-     * @param toMute  the uuid to ban
+     * @param toMute the uuid to ban
      * @param source the uuid which executed the ban
      * @param reason the reason of the ban
      * @param until  when does the ban expire (set to -1 for permanent)

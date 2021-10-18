@@ -8,7 +8,7 @@ public class StrUtil {
 
     public static final String EMPTY_COLOR = ChatColor.RESET.toString();
 
-    public static String[] v(String ... args) {
+    public static String[] v(String... args) {
 
         return args;
 
@@ -17,6 +17,7 @@ public class StrUtil {
     /**
      * Replaces the popular enum naming style for enums (ENUM_NAME)
      * to a readable format (Enum Name)
+     *
      * @param enumT the enum to convert
      * @return the enum name converted
      */
@@ -35,7 +36,8 @@ public class StrUtil {
     /**
      * Reverse method to {@link #extractNameFromEnum(Enum)}
      * takes in a name, converts it to enum style, and an enum class and returns the respective enum
-     * @param name the name to use
+     *
+     * @param name      the name to use
      * @param enumClazz the original enum class
      * @return the enum instance or null if none found
      */
@@ -47,7 +49,7 @@ public class StrUtil {
         Enum[] values = enumClazz.getEnumConstants();
 
         for (Enum value : values) {
-            if(value.name().equals(converted))
+            if (value.name().equals(converted))
                 return (T) value;
         }
 

@@ -45,9 +45,9 @@ public class BukkitCompleter implements TabCompleter {
                     List<String> startsWith = new ArrayList<>();
                     List<String> completions = (List<String>) entry.getKey().invoke(entry.getValue(),
                             new CommandAdapter(sender, command, label, args, cmdLabel.split("\\.").length - 1, null));
-                    String starter = args[args.length-1];
+                    String starter = args[args.length - 1];
                     for (String completion : completions) {
-                        if(completion.startsWith(starter))
+                        if (completion.startsWith(starter))
                             startsWith.add(completion);
                     }
                     return startsWith;
@@ -55,16 +55,16 @@ public class BukkitCompleter implements TabCompleter {
                     e.printStackTrace();
                 }
             }
-            if(simpleCompleteors.containsKey(cmdLabel)) {
+            if (simpleCompleteors.containsKey(cmdLabel)) {
 
-                    List<String> startsWith = new ArrayList<>();
-                    List<String> completions = simpleCompleteors.get(cmdLabel);
-                    String starter = args[args.length-1];
-                    for (String completion : completions) {
-                        if(completion.startsWith(starter))
-                            startsWith.add(completion);
-                    }
-                    return startsWith;
+                List<String> startsWith = new ArrayList<>();
+                List<String> completions = simpleCompleteors.get(cmdLabel);
+                String starter = args[args.length - 1];
+                for (String completion : completions) {
+                    if (completion.startsWith(starter))
+                        startsWith.add(completion);
+                }
+                return startsWith;
 
             }
 

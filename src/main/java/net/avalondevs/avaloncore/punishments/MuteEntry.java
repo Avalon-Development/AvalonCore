@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class MuteEntry extends PunishmentEntry{
+public class MuteEntry extends PunishmentEntry {
 
     public MuteEntry(UUID user, UUID source, long until, String reason) {
         super(user, source, until, reason);

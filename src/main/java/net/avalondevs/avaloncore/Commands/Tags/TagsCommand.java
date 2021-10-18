@@ -20,15 +20,16 @@ public class TagsCommand implements CommandExecutor {
     public TagsCommand() {
         Main.getPlugin(Main.class).getCommand("tags").setExecutor(this);
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(chat("&CPlayer only command!"));
         }
 
         Player player = (Player) sender;
 
-        if(!SQL.isConnected()) {
+        if (!SQL.isConnected()) {
             player.sendMessage(chat("&cSorry, the database is not connected check console...."));
             player.sendMessage(chat("&cPlease message DaatUserName or ashh on discord if you encounter any errors"));
         } else {
@@ -37,7 +38,7 @@ public class TagsCommand implements CommandExecutor {
                     String name = args[2];
                     String prefix = args[3];
                     SQLGetter.createTag(name, prefix);
-                    player.sendMessage(chat("&fPrefix &7a tag with the name " + name  + " prefix: " + prefix));
+                    player.sendMessage(chat("&fPrefix &7a tag with the name " + name + " prefix: " + prefix));
                     break;
                 case "list":
                     try {

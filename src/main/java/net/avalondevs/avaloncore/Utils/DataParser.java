@@ -8,16 +8,20 @@ import org.jetbrains.annotations.Nullable;
 
 public class DataParser {
 
-    public static Object tryToParse(String string, Class<?> classType){
+    public static Object tryToParse(String string, Class<?> classType) {
 
         System.out.println(classType.getSimpleName());
 
         switch (classType.getSimpleName()) {
 
-            case "String": return string;
-            case "int": return Integer.parseInt(string);
-            case "double": return Double.parseDouble(string);
-            case "long": return Long.parseLong(string);
+            case "String":
+                return string;
+            case "int":
+                return Integer.parseInt(string);
+            case "double":
+                return Double.parseDouble(string);
+            case "long":
+                return Long.parseLong(string);
 
         }
 
@@ -31,10 +35,10 @@ public class DataParser {
 
     }
 
-    public static boolean isEitherType(String data, Class<?> ... types) {
+    public static boolean isEitherType(String data, Class<?>... types) {
 
         for (Class<?> type : types) {
-            if(isType(data, type))
+            if (isType(data, type))
                 return true;
         }
 
@@ -46,6 +50,7 @@ public class DataParser {
      * Converts the short form of an item:
      * {@code MATERIAL:DATA:AMOUNT} (where {@code :AMOUNT} is optional)
      * into an {@link ItemStack}
+     *
      * @param string the short form
      * @return the resulting item stack, null if the material is invalid
      */
@@ -81,7 +86,7 @@ public class DataParser {
 
                 String finalS = buffer.toString();
 
-                if(buffer.isEmpty())
+                if (buffer.isEmpty())
                     continue;
 
                 long res = Long.parseLong(finalS);

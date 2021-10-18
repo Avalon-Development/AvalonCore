@@ -16,10 +16,10 @@ public class HistoryCommand {
     public void sendBanEntry(BanEntry banEntry, CommandAdapter adapter, boolean active) {
 
         String banner;
-        if (banEntry.getBanner().equals(Punishments.consoleUUID))
+        if (banEntry.getSource().equals(Punishments.consoleUUID))
             banner = "CONSOLE";
         else {
-            OfflinePlayer user = Bukkit.getOfflinePlayer(banEntry.getBanner());
+            OfflinePlayer user = Bukkit.getOfflinePlayer(banEntry.getSource());
             banner = user.getName();
         }
 
@@ -49,10 +49,10 @@ public class HistoryCommand {
     public void sendMuteEntry(MuteEntry muteEntry, CommandAdapter adapter, boolean active) {
 
         String banner;
-        if (muteEntry.getBanner().equals(Punishments.consoleUUID))
+        if (muteEntry.getSource().equals(Punishments.consoleUUID))
             banner = "CONSOLE";
         else {
-            OfflinePlayer user = Bukkit.getOfflinePlayer(muteEntry.getBanner());
+            OfflinePlayer user = Bukkit.getOfflinePlayer(muteEntry.getSource());
             banner = user.getName();
         }
 
@@ -194,7 +194,7 @@ public class HistoryCommand {
 
                 }
 
-                if(entry instanceof KickEntry kickEntry) {
+                if (entry instanceof KickEntry kickEntry) {
 
                     sendKickEntry(kickEntry, adapter);
 
@@ -216,7 +216,7 @@ public class HistoryCommand {
 
                 }
 
-                if(entry instanceof KickEntry kickEntry) {
+                if (entry instanceof KickEntry kickEntry) {
 
                     sendKickEntry(kickEntry, adapter);
 

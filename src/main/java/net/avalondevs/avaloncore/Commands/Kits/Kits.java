@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class Kits implements Listener{
+public class Kits implements Listener {
 
     @Command(name = "kits", permission = "")
     public void onCommand(CommandAdapter adapter) {
@@ -33,9 +33,9 @@ public class Kits implements Listener{
         ItemMeta KitSpecialMeta = KitSpecial.getItemMeta();
         KitSpecialMeta.setDisplayName(Utils.chat(Config.KitSpecialKitName));
         if (Config.KitSpecialCooldownTime.contains(p.getUniqueId())) {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitSpecial.setItemMeta(KitSpecialMeta);
 
@@ -44,9 +44,9 @@ public class Kits implements Listener{
         ItemMeta KitHeroMeta = KitHero.getItemMeta();
         KitHeroMeta.setDisplayName(Utils.chat(Config.KitHeroKitName));
         if (Config.KitHeroCooldownTime.contains(p.getUniqueId())) {
-            KitHeroMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitHeroMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitHero.setItemMeta(KitHeroMeta);
 
@@ -55,9 +55,9 @@ public class Kits implements Listener{
         ItemMeta KitZeusMeta = KitZeus.getItemMeta();
         KitZeusMeta.setDisplayName(Utils.chat(Config.KitZeusKitName));
         if (Config.KitZeusCooldownTime.contains(p.getUniqueId())) {
-            KitZeusMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitZeusMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitZeus.setItemMeta(KitZeusMeta);
 
@@ -66,20 +66,20 @@ public class Kits implements Listener{
         ItemMeta KitEternalMeta = KitEternal.getItemMeta();
         KitEternalMeta.setDisplayName(Utils.chat(Config.KitEternalKitName));
         if (Config.KitEternalCooldownTime.contains(p.getUniqueId())) {
-            KitEternalMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitEternalMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitEternal.setItemMeta(KitEternalMeta);
 
-        
+
         ItemStack KitImmortal = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta KitImmortalMeta = KitImmortal.getItemMeta();
         KitImmortalMeta.setDisplayName(Utils.chat(Config.KitImmortalKitName));
         if (Config.KitImmortalCooldownTime.contains(p.getUniqueId())) {
-            KitImmortalMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitImmortalMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitImmortal.setItemMeta(KitImmortalMeta);
 
@@ -88,9 +88,9 @@ public class Kits implements Listener{
         ItemMeta KitLegendMeta = KitLegend.getItemMeta();
         KitLegendMeta.setDisplayName(Utils.chat(Config.KitLegendKitName));
         if (Config.KitLegendCooldownTime.contains(p.getUniqueId())) {
-            KitLegendMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&cThis kit is on cooldown") }));
+            KitLegendMeta.setLore(Arrays.asList("", Utils.chat("&cThis kit is on cooldown")));
         } else {
-            KitSpecialMeta.setLore(Arrays.asList(new String[] { "", Utils.chat("&aThis kit is not on cooldown") }));
+            KitSpecialMeta.setLore(Arrays.asList("", Utils.chat("&aThis kit is not on cooldown")));
         }
         KitLegend.setItemMeta(KitLegendMeta);
 
@@ -160,14 +160,12 @@ public class Kits implements Listener{
             SetKitItems.KitPvPKit(p);
 
 
-
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))
                 && e.getCurrentItem().getItemMeta().getDisplayName().equals(Utils.chat(Config.KitSpecialKitName))
                 && (!Config.KitSpecialCooldownTime.contains(p.getUniqueId()))) {
             p.getInventory().clear();
             SetKitItems.KitSpecialKit(p);
             KitCooldowns.KitSpecialcooldownTimer(p);
-
 
 
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))
@@ -178,14 +176,12 @@ public class Kits implements Listener{
             KitCooldowns.KitHerocooldownTimer(p);
 
 
-
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))
                 && e.getCurrentItem().getItemMeta().getDisplayName().equals(Utils.chat(Config.KitZeusKitName))
                 && (!Config.KitZeusCooldownTime.contains(p.getUniqueId()))) {
             p.getInventory().clear();
             SetKitItems.KitZeusKit(p);
             KitCooldowns.KitZeuscooldownTimer(p);
-
 
 
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))
@@ -196,14 +192,12 @@ public class Kits implements Listener{
             KitCooldowns.KitEternalcooldownTimer(p);
 
 
-
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))
                 && e.getCurrentItem().getItemMeta().getDisplayName().equals(Utils.chat(Config.KitImmortalKitName))
                 && (!Config.KitImmortalCooldownTime.contains(p.getUniqueId()))) {
             p.getInventory().clear();
             SetKitItems.KitImmortalKit(p);
             KitCooldowns.KitImmortalcooldownTimer(p);
-
 
 
         } else if (e.getWhoClicked().getName().equalsIgnoreCase(Utils.chat("&8Kit Selector"))

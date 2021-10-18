@@ -5,6 +5,9 @@ MySQL:
   username: "admin"
   password: "password"
   database: "database"
+sqlite:
+  file: core.db
+database: 'mysql'
 vouchers:
   enabled: false
   default:
@@ -16,3 +19,6 @@ vouchers:
       - "&7to claim the %rank% Rank!"
 chat:
   format: "%prefix% %player% &8| &f%message%"
+dependencies:
+  - "https://github.com/xerial/sqlite-jdbc/releases/download/3.36.0.1/sqlite-jdbc-3.36.0.1.jar"
+  - "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar"

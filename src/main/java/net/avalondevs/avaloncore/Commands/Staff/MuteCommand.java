@@ -1,6 +1,5 @@
 package net.avalondevs.avaloncore.Commands.Staff;
 
-import net.avalondevs.avaloncore.Utils.Utils;
 import net.avalondevs.avaloncore.Utils.command.Command;
 import net.avalondevs.avaloncore.Utils.command.CommandAdapter;
 import net.avalondevs.avaloncore.punishments.Punishments;
@@ -8,8 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
-
-import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
 public class MuteCommand {
 

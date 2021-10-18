@@ -10,9 +10,6 @@ import net.luckperms.api.node.Node;
 import net.luckperms.api.node.NodeType;
 import net.luckperms.api.node.types.InheritanceNode;
 import net.luckperms.api.node.types.MetaNode;
-import net.luckperms.api.query.QueryOptions;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -38,7 +35,7 @@ public class LuckPermsAdapter {
     public String getDefiniteName(Group group) {
 
         String name = group.getDisplayName();
-        if(name == null)
+        if (name == null)
             name = group.getFriendlyName();
 
         return name;

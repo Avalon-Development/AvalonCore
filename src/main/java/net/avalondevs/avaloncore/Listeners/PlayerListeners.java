@@ -36,14 +36,14 @@ public class PlayerListeners implements Listener {
 
             Voucher voucher = VoucherManager.getInstance().getWithName(displayName);
 
-            if(voucher == null)
+            if (voucher == null)
                 return;
 
             User user = LuckPermsAdapter.obtainByAnyMeans(event.getPlayer().getUniqueId());
 
             Group currentGroup = LuckPermsAdapter.getPrimaryGroup(user);
 
-            if(currentGroup.getWeight().orElse(0) >= voucher.group().getWeight().orElse(0)) {
+            if (currentGroup.getWeight().orElse(0) >= voucher.group().getWeight().orElse(0)) {
 
                 player.sendMessage(
                         Color.fmt(
@@ -52,7 +52,7 @@ public class PlayerListeners implements Listener {
                         )
                 );
 
-            }else {
+            } else {
 
                 String name = LuckPermsAdapter.getDefiniteName(voucher.group());
 
@@ -80,10 +80,10 @@ public class PlayerListeners implements Listener {
 
                 String reason;
                 String banner;
-                if (entry.getBanner().equals(Punishments.consoleUUID))
+                if (entry.getSource().equals(Punishments.consoleUUID))
                     banner = "CONSOLE";
                 else {
-                    OfflinePlayer user = Bukkit.getOfflinePlayer(entry.getBanner());
+                    OfflinePlayer user = Bukkit.getOfflinePlayer(entry.getSource());
                     banner = user.getName();
                 }
 
@@ -113,22 +113,22 @@ public class PlayerListeners implements Listener {
 
         MuteEntry entry = Punishments.resolveUser(event.getPlayer().getUniqueId(), MuteEntry.class);
 
-        if(entry != null) {
+        if (entry != null) {
 
-            if(Punishments.checkExpiry(entry)) {
+            if (Punishments.checkExpiry(entry)) {
 
                 String reason;
                 String banner;
-                if (entry.getBanner().equals(Punishments.consoleUUID))
+                if (entry.getSource().equals(Punishments.consoleUUID))
                     banner = "CONSOLE";
                 else {
-                    OfflinePlayer user = Bukkit.getOfflinePlayer(entry.getBanner());
+                    OfflinePlayer user = Bukkit.getOfflinePlayer(entry.getSource());
                     banner = user.getName();
                 }
 
                 if (entry.until == -1) {
 
-                    reason = I18N.getInstance().format("punishments.response.mute",  "&4permanently",
+                    reason = I18N.getInstance().format("punishments.response.mute", "&4permanently",
                             entry.getReason(), banner);
 
                 } else {

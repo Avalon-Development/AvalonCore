@@ -28,8 +28,8 @@ import java.util.Map.Entry;
 public class CommandFramework implements CommandExecutor {
 
     private final Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
-    private CommandMap map;
     private final JavaPlugin plugin;
+    private CommandMap map;
 
     /**
      * Initializes the command framework and sets up the command maps
@@ -166,7 +166,7 @@ public class CommandFramework implements CommandExecutor {
 
         BukkitCommand cmd = (BukkitCommand) map.getCommand(cmdLabel);
 
-        if(plugin.getServer().getPluginCommand(cmdLabel) != null) { // global overwrite
+        if (plugin.getServer().getPluginCommand(cmdLabel) != null) { // global overwrite
 
             plugin.getServer().getPluginCommand(cmdLabel).setExecutor(this);
 
