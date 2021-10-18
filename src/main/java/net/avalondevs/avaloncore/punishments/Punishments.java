@@ -124,7 +124,10 @@ public class Punishments {
 
         user.kickPlayer(reason);
 
-        KickEntry kick = new KickEntry(user.getUniqueId(), source, reason);
+        KickEntry kick = new KickEntry(user.getUniqueId(),
+                source,
+                System.currentTimeMillis(), // kick ends as soon at its created
+                reason);
 
         archivedEntries.add(kick);
 

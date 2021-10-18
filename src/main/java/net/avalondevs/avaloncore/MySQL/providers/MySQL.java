@@ -1,18 +1,18 @@
-package net.avalondevs.avaloncore.MySQL;
+package net.avalondevs.avaloncore.MySQL.providers;
 
 import net.avalondevs.avaloncore.Main;
+import net.avalondevs.avaloncore.MySQL.Database;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.UUID;
 
 import static net.avalondevs.avaloncore.Utils.Utils.chat;
 
-public class MySQL {
-
+public class MySQL extends Database {
 
     Plugin plugin = Main.getPlugin(Main.class);
     private final String host = plugin.getConfig().getString("MySQL.host");
@@ -21,34 +21,20 @@ public class MySQL {
     private final String username = plugin.getConfig().getString("MySQL.username");
     private final String password = plugin.getConfig().getString("MySQL.password");
 
-    private Connection connection;
-
-    public boolean isConnected() {
-        return (connection != null);
-    }
-
     public void connect() throws SQLException {
         if(!plugin.getConfig().getBoolean("MySQL.enabled")) {
             Bukkit.getConsoleSender().sendMessage(chat("&cMySQL is disabled... Please enabled it in the config.yml"));
         } else {
             if (!isConnected()) {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "CONNECTING TO MYSQL DATABASE PLEASE WAIT....");
-                connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
+                setConnection(DriverManager.getConnection(
+                        "jdbc:mysql://" +
+                                host + ":" +
+                                port + "/" +
+                                database + "?useSSL=false"
+                        , username, password));
             }
         }
     }
 
-    public void disconnect() {
-        if (isConnected()) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
 }

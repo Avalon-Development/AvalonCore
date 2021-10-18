@@ -11,29 +11,11 @@ import java.util.UUID;
 @ToString
 public class MuteEntry extends PunishmentEntry{
 
-    public final UUID banner;
-    public final long until;
-    public final String reason;
-
-    public MuteEntry(UUID user, UUID banner, long until, String reason) {
-        super(user);
-        this.banner = banner;
-        this.until = until;
-        this.reason = reason;
+    public MuteEntry(UUID user, UUID source, long until, String reason) {
+        super(user, source, until, reason);
     }
 
-    public void revoke() {
-
-        Punishments.revoke(this);
-
+    public MuteEntry(UUID id, long timestamp, UUID user, UUID source, long until, String reason) {
+        super(id, timestamp, user, source, until, reason);
     }
-
-    @Override
-    public boolean isExpired() {
-        if(until < 0)
-            return false;
-
-        return System.currentTimeMillis() - timestamp >= until;
-    }
-
 }

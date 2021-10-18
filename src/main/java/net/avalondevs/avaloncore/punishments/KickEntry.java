@@ -7,17 +7,12 @@ import java.util.UUID;
 @Getter
 public class KickEntry extends PunishmentEntry {
 
-    public final UUID source;
-    public final String reason;
 
-    public KickEntry(UUID user, UUID source, String reason) {
-        super(user);
-        this.source = source;
-        this.reason = reason;
+    public KickEntry(UUID user, UUID source, long until, String reason) {
+        super(user, source, until, reason);
     }
 
-    @Override
-    public boolean isExpired() {
-        return true;
+    public KickEntry(UUID id, long timestamp, UUID user, UUID source, long until, String reason) {
+        super(id, timestamp, user, source, until, reason);
     }
 }
