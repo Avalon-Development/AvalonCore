@@ -23,6 +23,7 @@ import net.avalondevs.avaloncore.Utils.*;
 import net.avalondevs.avaloncore.Utils.command.CommandFramework;
 import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
+import net.avalondevs.avaloncore.databasing.PunishmentData;
 import net.avalondevs.avaloncore.punishments.Punishments;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -116,22 +117,21 @@ public final class Main extends JavaPlugin {
             if(!database.isConnected())
                 Logger.error("Could not establish any valid database connection");
 
-        }
+        }else {
 
-        SQL = database; // DarkNet 10/18/2021: TODO please change over from primitive MySQL to generic Database
+            SQL = database; // DarkNet 10/18/2021: TODO please change over from primitive MySQL to generic Database
 
-        data = new SQLGetter(this);
-        staffSQL = new StaffSQL(this);
-        playerData = new PlayerData(this);
+            data = new SQLGetter(this);
+            staffSQL = new StaffSQL(this);
+            playerData = new PlayerData(this);
 
-
-
-        if (database.isConnected()) {
             data.createTable();
             staffSQL.createTable();
             playerData.createTable();
 
             CommandRegistry.registerCommands(framework);
+
+            PunishmentData.init();
 
         }
 
@@ -148,8 +148,10 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if(database != null)
-        database.disconnect();
+        if(database != null && database.isConnected()) {
+            database.disconnect();
+            PunishmentData.save();
+        }
 
         Bukkit.getConsoleSender().sendMessage("===============");
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Plugin disabled");
