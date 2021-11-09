@@ -3,15 +3,6 @@ package net.avalondevs.avaloncore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.avalondevs.avaloncore.Commands.Admin.EatCommand;
-import net.avalondevs.avaloncore.Commands.Admin.HealCommand;
-import net.avalondevs.avaloncore.Commands.Admin.SetspawnCommand;
-import net.avalondevs.avaloncore.Commands.Kits.Kits;
-import net.avalondevs.avaloncore.Commands.Kits.Resetcooldowns;
-import net.avalondevs.avaloncore.Commands.Staff.*;
-import net.avalondevs.avaloncore.Commands.Tags.TagsCommand;
-import net.avalondevs.avaloncore.Commands.players.*;
-import net.avalondevs.avaloncore.Commands.voucher.VoucherCommand;
 import net.avalondevs.avaloncore.Listeners.PlayerListeners;
 import net.avalondevs.avaloncore.MySQL.Database;
 import net.avalondevs.avaloncore.MySQL.PlayerData;
@@ -28,8 +19,6 @@ import net.avalondevs.avaloncore.punishments.Punishments;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.sql.SQLException;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -50,7 +39,6 @@ public final class Main extends JavaPlugin {
     }
 
     @SneakyThrows
-    @Override
     public void onEnable() {
 
         setInstance(this);
@@ -145,7 +133,6 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
     }
 
-    @Override
     public void onDisable() {
 
         if(database != null && database.isConnected()) {
