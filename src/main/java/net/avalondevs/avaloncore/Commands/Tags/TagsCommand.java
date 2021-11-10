@@ -2,13 +2,13 @@ package net.avalondevs.avaloncore.Commands.Tags;
 
 import net.avalondevs.avaloncore.Main;
 import net.avalondevs.avaloncore.MySQL.SQLGetter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -44,7 +44,7 @@ public class TagsCommand implements CommandExecutor {
                     try {
                         PreparedStatement ps;
                         ps = SQL.getConnection().prepareStatement("SELECT * FROM tags");
-                        player.sendMessage((Component) ps);
+                        player.sendMessage(String.valueOf((Component) ps));
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

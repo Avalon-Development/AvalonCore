@@ -16,9 +16,12 @@ import net.avalondevs.avaloncore.data.Voucher;
 import net.avalondevs.avaloncore.data.VoucherManager;
 import net.avalondevs.avaloncore.databasing.PunishmentData;
 import net.avalondevs.avaloncore.punishments.Punishments;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -33,10 +36,10 @@ public final class Main extends JavaPlugin {
     @Getter
     static Database database;
     CommandFramework framework = new CommandFramework(this); // initialize a new framework
-
     public static Main getPlugin() {
         return plugin;
     }
+    private Economy econ;
 
     @SneakyThrows
     public void onEnable() {
@@ -123,6 +126,11 @@ public final class Main extends JavaPlugin {
 
         }
 
+        if (!setupEconomy()) {
+            getLogger().severe("VAULT IS NOT ENABLED -- ADD IT OR BREAKAGE MAY OCCUR");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
         CommandRegistry.registerModuleCommands(framework);
 
         Voucher.cache();
@@ -143,6 +151,20 @@ public final class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("===============");
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Plugin disabled");
         Bukkit.getConsoleSender().sendMessage("===============");
+    }
+
+    public boolean setupEconomy () {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+
+        econ = rsp.getProvider();
+        return true;
     }
 
 }
